@@ -38,6 +38,20 @@ const SignUpForm = ({
     searchParams.get("utm_campaign"),
   ];
 
+  const classMapping: Record<string, number> = {
+    viii: 8,
+    ix: 9,
+    x: 10,
+    xi: 11,
+    xii: 12,
+  };
+
+  const streamMapping: Record<string, number> = {
+    neet: 1,
+    jee: 2,
+    cbse: 3,
+  };
+
   const [processing, setProcessing] = useState(false);
 
   const validationSchema = Yup.object({
@@ -47,8 +61,9 @@ const SignUpForm = ({
       .min(10, "Mobile number must be exactly 10 digits.")
       .max(10, "Mobile number cannot exceed 10 digits.")
       .required("Mobile number is required."),
-
     role: Yup.string().required("Please select a role."),
+    stream: Yup.string().oneOf(["jee", "neet", "cbse"], "Select a valid stream").required("Stream is required"),
+    class: Yup.string().oneOf(["viii", "ix", "x", "xi", "xii"], "Select a valid class").required("Class is required"),
   });
 
   const formik = useFormik({
@@ -57,17 +72,19 @@ const SignUpForm = ({
       email: "",
       phone: "",
       role: "",
+      stream: "",
+      class: "",
     },
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
-      
       setProcessing(true);
       const res = await createUser(
         {
           ...values,
           phone: `${COUNTRY_CODE.INDIA}${values.phone}`,
           otp: 0,
+          class: classMapping[values.class] || 0,
+          stream: streamMapping[values.stream] || 0,
         },
         { marketingCampaign, marketingMedium, marketingSource }
       );
@@ -127,6 +144,63 @@ const SignUpForm = ({
             </Select>
             {formik.touched.role && formik.errors.role && (
               <p className="text-[#f04749] font-[500] text-[14px] mx-2 mt-2">{formik.errors.role}</p>
+            )}
+          </div>
+          {/* Stream Dropdown */}
+          <div className="mb-[20px]">
+            <Select onValueChange={(value) => formik.setFieldValue("stream", value)} value={formik.values.stream}>
+              <SelectTrigger className="h-[48px] mt-[5px] text-[#333] border border-gray-300 rounded-md">
+                <SelectValue placeholder="Choose your stream" className="text-[#333]" />
+              </SelectTrigger>
+              <SelectContent className="bg-white border border-gray-200 rounded-md shadow-md">
+                <SelectGroup>
+                  <SelectLabel>Stream</SelectLabel>
+                  <SelectItem value="jee" className="text-[#555] hover:bg-gray-100 cursor-pointer px-3 py-2">
+                    JEE
+                  </SelectItem>
+                  <SelectItem value="neet" className="text-[#555] hover:bg-gray-100 cursor-pointer px-3 py-2">
+                    NEET
+                  </SelectItem>
+                  <SelectItem value="cbse" className="text-[#555] hover:bg-gray-100 cursor-pointer px-3 py-2">
+                    CBSE
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {formik.touched.stream && formik.errors.stream && (
+              <p className="text-[#f04749] font-[500] text-[14px] mx-2 mt-2">{formik.errors.stream}</p>
+            )}
+          </div>
+
+          {/* Class Dropdown */}
+          <div className="mb-[20px]">
+            <Select onValueChange={(value) => formik.setFieldValue("class", value)} value={formik.values.class}>
+              <SelectTrigger className="h-[48px] mt-[5px] text-[#333] border border-gray-300 rounded-md">
+                <SelectValue placeholder="Choose your class" className="text-[#333]" />
+              </SelectTrigger>
+              <SelectContent className="bg-white border border-gray-200 rounded-md shadow-md">
+                <SelectGroup>
+                  <SelectLabel>Class</SelectLabel>
+                  <SelectItem value="viii" className="text-[#555] hover:bg-gray-100 cursor-pointer px-3 py-2">
+                    VIII
+                  </SelectItem>
+                  <SelectItem value="ix" className="text-[#555] hover:bg-gray-100 cursor-pointer px-3 py-2">
+                    IX
+                  </SelectItem>
+                  <SelectItem value="x" className="text-[#555] hover:bg-gray-100 cursor-pointer px-3 py-2">
+                    X
+                  </SelectItem>
+                  <SelectItem value="xi" className="text-[#555] hover:bg-gray-100 cursor-pointer px-3 py-2">
+                    XI
+                  </SelectItem>
+                  <SelectItem value="xii" className="text-[#555] hover:bg-gray-100 cursor-pointer px-3 py-2">
+                    XII
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {formik.touched.class && formik.errors.class && (
+              <p className="text-[#f04749] font-[500] text-[14px] mx-2 mt-2">{formik.errors.class}</p>
             )}
           </div>
           <div className="mb-[20px]">

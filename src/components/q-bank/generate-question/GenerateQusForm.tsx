@@ -1,8 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { IChapterDetailsProps, ISubjectProps, ITopicDatas } from "@/types";
-import React, { FC, useState } from "react";
-import CustomGenerateSelect, { IOptionProps } from "../../common/CustomCheckList";
+import type { IChapterDetailsProps, ISubjectProps, ITopicDatas } from "@/types";
+import { type FC, useState } from "react";
+import CustomGenerateSelect, { type IOptionProps } from "../../common/CustomCheckList";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { generateQuestions } from "@/utils/api/generate-questions";
@@ -17,11 +17,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import ITokenProps, { ICognitiveLevelProps, IPracticeExamTypes } from "@/types/generate-questions";
+import type ITokenProps from "@/types/generate-questions";
+import type { ICognitiveLevelProps } from "@/types/generate-questions";
 import LoadingSpinner from "@/components/icons/LoadingSpinner";
 import { CREATE_STUDY_PLAN } from "@/service/enums/texts";
 import { Input } from "@/components/ui/input";
 import FeedbackLoader from "../view-ai-questions/FeedbackLoader";
+import { ChevronDown, Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export interface IGenerateQuesProps {
   chapters?: IChapterDetailsProps[];
@@ -38,8 +41,88 @@ export interface IGenerateQuestBodyProps {
   questionLevels: string;
   totalQuestion: string;
   selectedCognitiveLevel: string;
-  botType: number;
+  questionQuality: number;
+  stream: string;
 }
+
+// Custom Quality Select Component
+const QualitySelect = ({
+  value,
+  onValueChange,
+  error,
+}: {
+  value: string;
+  onValueChange: (value: string) => void;
+  error?: string;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const qualityOptions = [
+    { value: "basic", label: "Basic", credit: "0.5 Credit" },
+    { value: "standard", label: "Standard", credit: "1 Credit" },
+    { value: "premium", label: "Premium", credit: "2 Credits" },
+    { value: "elite", label: "Elite", credit: "3 Credits" },
+  ];
+
+  const selectedOption = qualityOptions.find((option) => option.value === value);
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={cn(
+          "flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+          error && "border-red-500"
+        )}
+      >
+        <span className={cn("text-gray-400", value && "text-foreground")}>
+          {selectedOption ? selectedOption.label : "Choose Quality"}
+        </span>
+        <ChevronDown className="h-4 w-4 opacity-50" />
+      </button>
+
+      {isOpen && (
+        <div className="absolute top-full left-0 right-0 z-50 mt-1 rounded-md border bg-popover text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95">
+          <div className="p-1">
+            <div className="px-2 py-1.5 text-sm font-semibold">Quality Levels</div>
+            {qualityOptions.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => {
+                  onValueChange(option.value);
+                  setIsOpen(false);
+                }}
+                className="relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+              >
+                <div className="flex justify-between items-center w-full">
+                  <span>{option.label}</span>
+                  <span className="text-sm text-muted-foreground">{option.credit}</span>
+                </div>
+                {value === option.value && (
+                  <span className="absolute right-2 flex h-3.5 w-3.5 items-center justify-center">
+                    <Check className="h-4 w-4" />
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Overlay to close dropdown when clicking outside */}
+      {isOpen && <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />}
+    </div>
+  );
+};
+
+const QUALITY_LEVEL_MAP: Record<string, number> = {
+  basic: 1,
+  standard: 2,
+  premium: 3,
+  elite: 4,
+};
 
 const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, cognitiveLevel, tokenDetails }) => {
   const router = useRouter();
@@ -62,7 +145,9 @@ const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, c
     selectedStream: Yup.string()
       .oneOf(["Neet", "Jee", "Cbse"], "Please select a valid stream")
       .required("Stream is required"),
-
+    questionQuality: Yup.string()
+      .oneOf(["basic", "standard", "premium", "elite"], "Select a valid question quality")
+      .required("Question quality is required"),
     selectedSubjects: Yup.array()
       .min(1, "Should Select atleast one Subject")
       .required("Should Select atleast one Subject"),
@@ -77,9 +162,6 @@ const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, c
 
     selectedTopics: Yup.array().min(1, "Should Select at least one Topic").required("Should Select at least one Topic"),
     selectedCognitiveLevel: Yup.string().required("Please select a cognitive level."),
-    botType: Yup.string()
-      .oneOf(["Beginner", "Advanced"], "Please select a valid bot type")
-      .required("Bot Type is required"),
   });
 
   const formik = useFormik({
@@ -91,8 +173,8 @@ const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, c
       totalQuestions: "",
       activePyqs: false,
       selectedCognitiveLevel: "",
-      botType: "",
       selectedStream: "",
+      questionQuality: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -106,12 +188,11 @@ const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, c
           questionLevels: values.difficultLevel,
           totalQuestion: values.totalQuestions,
           selectedCognitiveLevel: values.selectedCognitiveLevel,
-          botType: values.botType === "Beginner" ? 1 : 2,
+          questionQuality: QUALITY_LEVEL_MAP[values.questionQuality] ?? 1,
+          stream: values.selectedStream,
         };
 
         const res = await generateQuestions(data);
-        console.log(res);
-
         if (res.success) {
           toast({
             title: "Questions generated",
@@ -144,7 +225,7 @@ const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, c
     if (totalQues && selectedOpts.length > totalQues) {
       toast({
         title: `Limit Exceeded`,
-        description: `Your question count is ${totalQues}. You can’t select more than ${totalQues} subjects. To select more, increase the question count.`,
+        description: `Your question count is ${totalQues}. You can't select more than ${totalQues} subjects. To select more, increase the question count.`,
         variant: "destructive",
       });
       return;
@@ -174,7 +255,7 @@ const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, c
     if (totalQues && selectedOpts.length > totalQues) {
       toast({
         title: `Limit Exceeded`,
-        description: `Your question count is ${totalQues}. You can’t select more than ${totalQues} chapters. To select more, increase the question count.`,
+        description: `Your question count is ${totalQues}. You can't select more than ${totalQues} chapters. To select more, increase the question count.`,
         variant: "destructive",
       });
       return;
@@ -195,7 +276,7 @@ const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, c
           optionalValue: t.chapterId,
         })) || [];
 
-    setTopicOptions([{ label: "All Topics", value: "0" }, ...filteredTopics]); // New: topicOptions state
+    setTopicOptions([{ label: "All Topics", value: "0" }, ...filteredTopics]);
   };
 
   return (
@@ -210,10 +291,6 @@ const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, c
             <h2 className="text-[22px] lg:text-[26px] font-bold text-gray-800 dark:text-white">
               {CREATE_STUDY_PLAN.HEADING || "Generate Question Paper"}
             </h2>
-            {/* 
-            <p className="text-[14px] text-gray-600 dark:text-gray-300 mt-2 md:mt-0 flex">
-              Your Available Credits: <span className="font-semibold text-[#0B57D0]">{tokenDetails.remainingTokens}</span>
-            </p> */}
           </div>
           <div className="mt-5 mx-auto  p-[16px] lg:p-[28px] lg:pb-[23px] bg-[#Ffff] border-[1px] dark:bg-[#0E0E0E] shadow-none  w-full md:w-[600px] rounded-[16px] dark:border-transparent ">
             <div className="py-2 border-b mb-5">
@@ -238,7 +315,7 @@ const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, c
                   onChange={(e) => {
                     const value = e.target.value;
                     if (value === "") {
-                      formik.setFieldValue("totalQuestions", ""); // allow empty
+                      formik.setFieldValue("totalQuestions", "");
                     } else {
                       formik.setFieldValue("totalQuestions", Number(value));
                     }
@@ -250,33 +327,6 @@ const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, c
                 {formik.errors.totalQuestions && formik.touched.totalQuestions && (
                   <p className="text-[#f04749] font-[500] text-[14px] mx-2 mt-1 text-start">
                     {String(formik.errors.totalQuestions)}
-                  </p>
-                )}
-              </div>
-              <div className="w-full mt-2">
-                <label htmlFor="stream" className="lg:text-[15px] block text-[14px]">
-                  Stream
-                </label>
-                <Select
-                  onValueChange={(value) => formik.setFieldValue("selectedStream", value)}
-                  value={formik.values.selectedStream}
-                >
-                  <SelectTrigger className="w-full text-gray-400">
-                    <SelectValue placeholder="Choose Stream" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Streams</SelectLabel>
-                      <SelectItem value="Neet">Neet</SelectItem>
-                      <SelectItem value="Jee">Jee</SelectItem>
-                      <SelectItem value="Cbse">Cbse</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-
-                {formik.errors.selectedStream && formik.touched.selectedStream && (
-                  <p className="text-[#f04749] font-[500] text-[14px] mx-2 mt-1 text-start">
-                    {String(formik.errors.selectedStream)}
                   </p>
                 )}
               </div>
@@ -344,7 +394,7 @@ const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, c
                     if (totalQues && selectedOpts.length > totalQues) {
                       toast({
                         title: `Limit Exceeded`,
-                        description: `Your question count is ${totalQues}. You can’t select more than ${totalQues} topics. To select more, increase the question count.`,
+                        description: `Your question count is ${totalQues}. You can't select more than ${totalQues} topics. To select more, increase the question count.`,
                         variant: "destructive",
                       });
                       return;
@@ -370,28 +420,54 @@ const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, c
                   }
                 />
               </div>
+
               <div className="w-full mb-6">
-                <label htmlFor="botType" className="lg:text-[15px] block text-[14px] mb-2">
-                  Select Bot Type
+                <label htmlFor="difficulty" className="lg:text-[15px] block text-[14px] mb-2">
+                  Stream
                 </label>
-                <Select onValueChange={(value) => formik.setFieldValue("botType", value)} value={formik.values.botType}>
+                <Select
+                  onValueChange={(value) => formik.setFieldValue("selectedStream", value)}
+                  value={formik.values.selectedStream}
+                >
                   <SelectTrigger className="w-full text-gray-400">
-                    <SelectValue placeholder="Choose Bot Type" />
+                    <SelectValue placeholder="Choose Stream" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectLabel>Bot Type</SelectLabel>
-                      <SelectItem value="Beginner">Beginner</SelectItem>
-                      <SelectItem value="Advanced">Advanced</SelectItem>
+                      <SelectLabel>Streams</SelectLabel>
+                      <SelectItem value="Neet">NEET</SelectItem>
+                      <SelectItem value="Jee">JEE</SelectItem>
+                      <SelectItem value="Cbse">CBSE</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
-
-                {formik.errors.botType && formik.touched.botType && (
-                  <p className="text-[#f04749] font-[500] text-[14px] mx-2 mt-1 text-start">{formik.errors.botType}</p>
+                {formik.errors.selectedStream && formik.touched.selectedStream && (
+                  <p className="text-[#f04749] font-[500] text-[14px] mx-2 mt-1 text-start">
+                    {String(formik.errors.selectedStream)}
+                  </p>
                 )}
               </div>
 
+              {/* Custom Question Quality Dropdown */}
+              <div className="w-full mb-6">
+                <label htmlFor="questionQuality" className="lg:text-[15px] block text-[14px] mb-2">
+                  Question Quality
+                </label>
+                <QualitySelect
+                  value={formik.values.questionQuality}
+                  onValueChange={(value) => formik.setFieldValue("questionQuality", value)}
+                  error={
+                    formik.errors.questionQuality && formik.touched.questionQuality
+                      ? String(formik.errors.questionQuality)
+                      : undefined
+                  }
+                />
+                {formik.errors.questionQuality && formik.touched.questionQuality && (
+                  <p className="text-[#f04749] font-[500] text-[14px] mx-2 mt-1 text-start">
+                    {String(formik.errors.questionQuality)}
+                  </p>
+                )}
+              </div>
               <div className="w-full mb-6">
                 <label htmlFor="difficulty" className="lg:text-[15px] block text-[14px] mb-2">
                   Select Difficulty Level

@@ -8,7 +8,8 @@ export interface IGenrateQstBodyProps {
   questionLevels: string;
   totalQuestion: string;
   selectedCognitiveLevel: string;
-  botType:number
+  questionQuality:number
+  stream:string
 }
 
 
