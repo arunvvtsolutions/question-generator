@@ -1,0 +1,133 @@
+
+/* 
+Breakpoint prefix	Minimum width	CSS
+sm	40rem (640px)	@media (width >= 40rem) { ... }
+md	48rem (768px)	@media (width >= 48rem) { ... }
+lg	64rem (1024px)	@media (width >= 64rem) { ... }
+xl	80rem (1280px)	@media (width >= 80rem) { ... }
+2xl	96rem (1536px)	@media (width >= 96rem) { ... } */
+
+.print-qst-div {
+  row-gap: 40px;
+  column-rule: 1px solid #101010;
+}
+
+.print-subject-div {
+  width: 100%;
+  border-bottom-width: 1px;
+}
+
+.print-subject-div .div {
+  break-inside: avoid-column;
+}
+
+@media print {
+  @page {
+    margin: 1cm;
+    padding: 0.5cm;
+    border: 1pt solid black;
+  }
+
+  body {
+    background-repeat: repeat-y;
+    background-size: 100% 100vh;
+  }
+  .print-none {
+    display: none;
+  }
+  .print-qst-div {
+    page-break-after: always;
+    column-count: 2;
+  }
+
+  .avoid_spliting {
+    break-inside: avoid-column;
+  }
+
+  .print-qst-div:last-child {
+    page-break-after: auto;
+    border-bottom: none;
+  }
+  .ref-div {
+    border: none;
+  }
+}
+
+/* markdown */
+.mark_down_text {
+  line-height: 1.5rem;
+}
+.mark_down_text strong {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.mark_down_text ol,
+ul {
+  padding-left: 1.5rem;
+  list-style: disc;
+}
+
+::placeholder {
+  color: rgb(133, 133, 133) !important;
+  opacity: 1 !important;
+}
+
+::-ms-input-placeholder {
+  color: red !important;
+}
+
+.mark_down_text table {
+  overflow: auto !important;
+  margin: 30px auto !important;
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+}
+
+.mark_down_text table td,
+.mark_down_text table th {
+  border: 1px solid #ddd !important;
+  text-align: left !important;
+  padding: 12px 15px !important;
+}
+.mark_down_text table tr {
+  color: #101010 !important;
+}
+
+.mark_down_text table td:first-child,
+.mark_down_text table th:first-child {
+  border-left: none;
+}
+.mark_down_text table td:last-child,
+.mark_down_text table th:last-child {
+  border-right: none;
+}
+.mark_down_text table tbody tr th p span {
+  font-size: 16px !important;
+  font-weight: 600;
+  color: #000 !important;
+  font-family: inherit !important;
+}
+.mark_down_text table tbody tr td p span {
+  font-size: 14px !important;
+  font-weight: 300 !important;
+  color: #101010 !important;
+  font-family: inherit !important;
+}
+.mark_down_text table tbody tr td p {
+  margin: 0 !important;
+  letter-spacing: 0.005em !important;
+}
+
+.dark .mark_down_text table td,
+.dark table th {
+  border: 1px solid #dddddd63 !important;
+}
+.dark .mark_down_text table tr,
+.dark .mark_down_text table tr th {
+  background-color: #101010 !important;
+}
+.dark .mark_down_text table tr:hover {
+  background-color: #000 !important;
+}

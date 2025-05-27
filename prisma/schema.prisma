@@ -1,0 +1,244 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model AiQuestions {
+  id              Int             @id @default(autoincrement()) @map("s_no")
+  user_id         Int
+  uuid            String          @db.VarChar(100)
+  question        String          @map("question") @db.Text
+  correctOpt      String          @map("correct_opt") @db.VarChar(255)
+  optionA         String          @map("option_a") @db.Text
+  optionB         String          @map("option_b") @db.Text
+  optionC         String          @map("option_c") @db.Text
+  optionD         String          @map("option_d") @db.Text
+  answerDesc      String          @map("answer_desc") @db.Text
+  difficulty      Int
+  questionType    Int             @map("question_type")
+  topicId         Int             @map("t_id")
+  subjectId       Int             @map("s_id")
+  chapterId       Int             @map("c_id")
+  cognitive_level Int
+  keywords        String?         @db.Text
+  estimated_time  Float?          @db.Float
+  QC              String?         @db.Text
+  addedDate       DateTime        @default(now()) @map("added_date") @db.DateTime(0)
+  updatedDate     DateTime?       @default(now()) @map("updated_date") @db.DateTime(0)
+  model           String?         @db.Text
+  topics          Topics          @relation(fields: [topicId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ai_questions_ibfk_1")
+  subjects        Subjects        @relation(fields: [subjectId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ai_questions_ibfk_2")
+  chapters        Chapters        @relation(fields: [chapterId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ai_questions_ibfk_3")
+  cognitiveLevel  CognitiveLevel  @relation(fields: [cognitive_level], references: [id], onUpdate: NoAction, map: "ai_questions_ibfk_4")
+  users           Users           @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "ai_questions_ibfk_5")
+  old_questions   old_questions[]
+
+  @@index([chapterId], map: "c_id")
+  @@index([cognitive_level], map: "cognitive_level")
+  @@index([questionType], map: "question_type")
+  @@index([subjectId], map: "s_id")
+  @@index([topicId], map: "t_id")
+  @@index([user_id], map: "user_id")
+  @@map("ai_questions")
+}
+
+model Chapters {
+  id            Int             @id @default(autoincrement()) @map("s_no")
+  subjectId     Int             @map("s_id")
+  classId       Int             @map("class_id")
+  chapterName   String          @map("c_name") @db.VarChar(255)
+  weightage     Int             @map("weightage")
+  order         Int?
+  shortUrl      String          @map("short_url") @db.VarChar(50)
+  employeeId    Int             @map("employee_id")
+  status        Int             @default(1) @map("status")
+  deleteStatus  Int             @default(0) @map("is_deleted")
+  addedDate     DateTime        @default(now()) @map("added_date") @db.DateTime(0)
+  updatedDate   DateTime        @default(now()) @map("updated_date") @db.DateTime(0)
+  aiQuestions   AiQuestions[]
+  subjects      Subjects        @relation(fields: [subjectId], references: [id], onUpdate: Restrict, map: "Subject")
+  old_questions old_questions[]
+  topics        Topics[]
+
+  @@index([classId], map: "Class")
+  @@index([employeeId], map: "Employee")
+  @@index([subjectId], map: "Subject")
+  @@map("chapters")
+}
+
+model Subjects {
+  id            Int             @id @default(autoincrement()) @map("s_no")
+  subjectName   String          @map("s_name") @db.VarChar(50)
+  shortUrl      String          @map("short_url") @db.VarChar(50)
+  stream        Int             @map("stream")
+  employeeId    Int             @map("employee_id")
+  status        Int             @default(1) @map("status")
+  deleteStatus  Int             @default(0) @map("is_deleted")
+  addedDate     DateTime        @default(now()) @map("added_date") @db.DateTime(0)
+  updatedDate   DateTime        @default(now()) @map("updated_date") @db.DateTime(0)
+  aiQuestions   AiQuestions[]
+  chapters      Chapters[]
+  old_questions old_questions[]
+  topics        Topics[]
+
+  @@index([employeeId], map: "Employee Id")
+  @@index([stream], map: "streamId")
+  @@map("subjects")
+}
+
+model Tokens {
+  id              Int      @id @default(autoincrement()) @map("s_no")
+  userId          Int      @map("user_id")
+  totalTokens     Int      @map("total_tokens")
+  remainingTokens Int      @map("remaining_tokens")
+  addedDate       DateTime @default(now()) @map("added_date") @db.DateTime(0)
+  updatedDate     DateTime @default(now()) @map("updated_date") @db.DateTime(0)
+  users           Users    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tokens_ibfk_1")
+
+  @@index([userId], map: "user_id")
+  @@map("tokens")
+}
+
+model Topics {
+  id            Int             @id @default(autoincrement()) @map("s_no")
+  subjectId     Int             @map("s_id")
+  chapterId     Int             @map("c_id")
+  topicName     String          @map("t_name") @db.VarChar(255)
+  shortUrl      String          @map("short_url") @db.VarChar(50)
+  employeeId    Int             @map("employee_id")
+  status        Int             @default(1) @map("status")
+  deleteStatus  Int             @default(0) @map("is_deleted")
+  addedDate     DateTime        @default(now()) @map("added_date") @db.DateTime(0)
+  updatedDate   DateTime        @default(now()) @map("updated_date") @db.DateTime(0)
+  aiQuestions   AiQuestions[]
+  old_questions old_questions[]
+  chapters      Chapters        @relation(fields: [chapterId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Chapters")
+  subjects      Subjects        @relation(fields: [subjectId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Subjects")
+
+  @@index([chapterId], map: "Chapters")
+  @@index([employeeId], map: "Employees")
+  @@index([subjectId], map: "Subjects")
+  @@map("topics")
+}
+
+model Users {
+  id              Int              @id @default(autoincrement()) @map("s_no")
+  name            String           @map("name") @db.VarChar(50)
+  email           String           @map("email") @db.VarChar(50)
+  phone           String           @map("phone") @db.VarChar(250)
+  otp             Int              @map("otp")
+  isActive        Int              @default(1) @map("is_active")
+  deleteStatus    Int              @default(0) @map("is_deleted")
+  addedDate       DateTime         @default(now()) @map("added_date") @db.DateTime(0)
+  updatedDate     DateTime         @default(now()) @map("updated_date") @db.DateTime(0)
+  role            String           @db.VarChar(50)
+  ai_questions    AiQuestions[]
+  payment_history PaymentHistory[]
+  tokens          Tokens[]
+
+  @@map("users")
+}
+
+model CognitiveLevel {
+  id                                                           Int             @id @default(autoincrement()) @map("s_no")
+  title                                                        String          @db.VarChar(255)
+  status                                                       Int             @default(1) @map("status")
+  deleteStatus                                                 Int             @default(0) @map("is_deleted")
+  addedDate                                                    DateTime        @default(now()) @map("added_date") @db.DateTime(0)
+  updatedDate                                                  DateTime        @default(now()) @map("updated_date") @db.DateTime(0)
+  aiQuestions                                                  AiQuestions[]
+  old_questions_old_questions_cognitive_levelTocognitive_level old_questions[] @relation("old_questions_cognitive_levelTocognitive_level")
+
+  @@map("cognitive_level")
+}
+
+model PaymentHistory {
+  id             Int      @id @default(autoincrement()) @map("s_no")
+  userId         Int      @map("userId")
+  productId      Int      @map("p_id")
+  type           Int      @map("type")
+  planAmount     String   @map("planAmount") @db.VarChar(255)
+  discountAmount String   @map("discountAmount") @db.VarChar(255)
+  totalAmount    String   @map("totalAmount") @db.VarChar(255)
+  paidAmount     String   @map("paid_amount") @db.VarChar(255)
+  couponId       Int?     @map("coupon_id")
+  orderId        String   @map("order_id") @db.VarChar(255)
+  trackingId     String   @map("tracking_id") @db.VarChar(20)
+  bankReference  String?  @map("cs_bank_ref_no") @db.VarChar(20)
+  orderStatus    String   @map("order_status") @db.VarChar(255)
+  failureMessage String?  @map("failure_message") @db.VarChar(255)
+  paymentMode    String?  @map("payment_mode") @db.VarChar(255)
+  billingName    String   @map("billing_name") @db.VarChar(255)
+  cancelMessage  String?  @map("cancel_message") @db.VarChar(255)
+  phoneNo        String   @map("phone_no") @db.VarChar(20)
+  status         Int      @default(1) @map("status")
+  otherDetails   Json?    @map("other_details")
+  addedDate      DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedDate    DateTime @default(now()) @map("updated_at") @db.Timestamp(0)
+  users          Users    @relation(fields: [userId], references: [id], onUpdate: NoAction, map: "payment_history_ibfk_1")
+  products       Products @relation(fields: [productId], references: [id], onUpdate: NoAction, map: "payment_history_ibfk_2")
+
+  @@index([productId], map: "p_id")
+  @@index([userId], map: "userId")
+  @@map("payment_history")
+}
+
+model Products {
+  id               Int              @id @default(autoincrement()) @map("s_no")
+  productName      String           @map("product_name") @db.VarChar(255)
+  shortDescription String           @map("short_description") @db.Text
+  amount           Int              @map("amount")
+  tokens           Int              @map("tokens")
+  predictorType    Int              @map("predictor_type")
+  description      String           @map("description") @db.Text
+  deleteStatus     Int              @default(0) @map("delete_status")
+  status           Int              @default(1) @map("status")
+  addedDate        DateTime         @default(now()) @map("added_date") @db.DateTime(0)
+  updatedDate      DateTime         @default(now()) @map("cs_updated_date") @db.DateTime(0)
+  planStatus       Int?             @default(1) @map("plan_status")
+  discounts        Int?
+  payment_history  PaymentHistory[]
+
+  @@map("products")
+}
+
+model old_questions {
+  s_no                                                           Int            @id @default(autoincrement())
+  q_id                                                           Int
+  question                                                       String         @db.Text
+  correct_opt                                                    String         @db.VarChar(255)
+  option_a                                                       String         @db.Text
+  option_b                                                       String         @db.Text
+  option_c                                                       String         @db.Text
+  option_d                                                       String         @db.Text
+  answer_desc                                                    String         @db.Text
+  difficulty                                                     Int
+  question_type                                                  Int
+  t_id                                                           Int
+  s_id                                                           Int
+  c_id                                                           Int
+  cognitive_level                                                Int
+  keywords                                                       String?        @db.Text
+  estimated_time                                                 Float?         @db.Float
+  QC                                                             String?        @db.Text
+  user_query                                                     String?        @db.Text
+  added_date                                                     DateTime       @default(now()) @db.DateTime(0)
+  updated_date                                                   DateTime?      @default(now()) @db.DateTime(0)
+  model                                                          String?        @db.Text
+  topics                                                         Topics         @relation(fields: [t_id], references: [id], onDelete: Cascade, map: "old_questions_ibfk_1")
+  subjects                                                       Subjects       @relation(fields: [s_id], references: [id], onDelete: Cascade, map: "old_questions_ibfk_2")
+  chapters                                                       Chapters       @relation(fields: [c_id], references: [id], onDelete: Cascade, map: "old_questions_ibfk_3")
+  cognitive_level_old_questions_cognitive_levelTocognitive_level CognitiveLevel @relation("old_questions_cognitive_levelTocognitive_level", fields: [cognitive_level], references: [id], onDelete: Cascade, map: "old_questions_ibfk_4")
+  ai_questions                                                   AiQuestions    @relation(fields: [q_id], references: [id], onDelete: Cascade, map: "old_questions_ibfk_5")
+
+  @@index([c_id], map: "c_id")
+  @@index([cognitive_level], map: "cognitive_level")
+  @@index([q_id], map: "q_id")
+  @@index([question_type], map: "question_type")
+  @@index([s_id], map: "s_id")
+  @@index([t_id], map: "t_id")
+}

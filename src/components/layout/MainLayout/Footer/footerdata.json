@@ -1,0 +1,304 @@
+{
+  "data": [
+    {
+      "subjectName": "Physics",
+      "chapters": [
+        {
+          "name": "Physics and Measurement",
+          "link": "revision-notes/physics/class-xi-physics-and-measurement"
+        },
+        {
+          "name": "Kinematics",
+          "link": "revision-notes/physics/class-xi-kinematics"
+        },
+        {
+          "name": "Laws of Motion",
+          "link": "revision-notes/physics/class-xi-laws-of-motion"
+        },
+        {
+          "name": "Work, Energy, and Power",
+          "link": "revision-notes/physics/class-xi-work-energy-power"
+        },
+        {
+          "name": "Rotational Motion",
+          "link": "revision-notes/physics/class-xi-rotational-motion"
+        },
+        {
+          "name": "Gravitation",
+          "link": "revision-notes/physics/class-xi-gravitation"
+        },
+        {
+          "name": "Properties of Solids and Liquids",
+          "link": "revision-notes/physics/class-xi-properties-solids-liquids"
+        },
+        {
+          "name": "Thermodynamics",
+          "link": "revision-notes/physics/class-xi-thermodynamics"
+        },
+        {
+          "name": "Kinetic Theory of Gases",
+          "link": "revision-notes/physics/class-xi-kinetic-theory-gases"
+        },
+        {
+          "name": "Oscillations and Waves",
+          "link": "revision-notes/physics/class-xi-oscillations-waves"
+        },
+        {
+          "name": "Electrostatics",
+          "link": "revision-notes/physics/class-xii-electrostatics"
+        },
+        {
+          "name": "Current Electricity",
+          "link": "revision-notes/physics/class-xii-current-electricity"
+        },
+        {
+          "name": "Magnetic Effects of Current and Magnetism",
+          "link": "revision-notes/physics/class-xii-magnetic-effects-current-and-magnetism"
+        },
+        {
+          "name": "Electromagnetic Induction and Alternating Currents",
+          "link": "revision-notes/physics/class-xii-electromagnetic-induction"
+        },
+        {
+          "name": "Electromagnetic Waves",
+          "link": "revision-notes/physics/class-xii-electromagnetic-waves"
+        },
+        {
+          "name": "Optics",
+          "link": "revision-notes/physics/class-xii-optics"
+        },
+        {
+          "name": "Dual Nature of Matter and Radiation",
+          "link": "revision-notes/physics/class-xii-dual-nature-matter-radiation"
+        },
+        {
+          "name": "Atoms and Nuclei",
+          "link": "revision-notes/physics/class-xii-atoms-nuclei"
+        },
+        {
+          "name": "Electronic Devices",
+          "link": "revision-notes/physics/class-xii-electronic-devices"
+        },
+        {
+          "name": "Communication System",
+          "link": "revision-notes/physics/class-xii-communication-system"
+        }
+      ]
+    },
+    {
+      "subjectName": "Chemistry",
+      "chapters": [
+        {
+          "name": "Some Basic Concepts in Chemistry",
+          "link": "revision-notes/chemistry/class-xi-basic-chemistry-concepts"
+        },
+        {
+          "name": "Atomic Structure",
+          "link": "revision-notes/chemistry/class-xi-atomic-structure"
+        },
+        {
+          "name": "Chemical Bonding and Molecular Structure",
+          "link": "revision-notes/chemistry/class-xi-chemical-bonding"
+        },
+        {
+          "name": "Chemical Thermodynamics",
+          "link": "revision-notes/chemistry/class-xi-chemical-thermodynamics"
+        },
+        {
+          "name": "Chemical Equilibrium",
+          "link": "revision-notes/chemistry/class-xi-chemical-equilibrium"
+        },
+        {
+          "name": "Classification of Elements and Periodicity in Properties",
+          "link": "revision-notes/chemistry/class-xi-classification-of-elements-and-periodicity-in-prop"
+        },
+        {
+          "name": "Some p-Block Elements",
+          "link": "revision-notes/chemistry/class-xi-p-block-elements"
+        },
+        {
+          "name": "Organic Chemistry: Some basic principles and techniques",
+          "link": "revision-notes/chemistry/class-xi-organic-chemistry-basics"
+        },
+        {
+          "name": "Hydrocarbons",
+          "link": "/chemistry/class-xi-hydrocarbons"
+        },
+        {
+          "name": "Solutions",
+          "link": "revision-notes/chemistry/class-xii-solutions"
+        },
+        {
+          "name": "Redox Reactions And Electrochemistry",
+          "link": "revision-notes/chemistry/class-xii-electrochemistry"
+        },
+        {
+          "name": "Chemical Kinetics",
+          "link": "revision-notes/chemistry/class-xii-chemical-kinetics"
+        },
+        {
+          "name": "d- and f-Block Elements",
+          "link": "revision-notes/chemistry/class-xii-d-f-block-elements"
+        },
+        {
+          "name": "Coordination Compounds",
+          "link": "revision-notes/chemistry/class-xii-coordination-compounds"
+        },
+        {
+          "name": "Purification and Characterization of Organic Compounds",
+          "link": "revision-notes/chemistry/class-xii-purification-and-characterization-of-organic-compo"
+        },
+        {
+          "name": "Organic Compounds Containing Halogens",
+          "link": "revision-notes/chemistry/class-xii-haloalkanes-haloarenes"
+        },
+        {
+          "name": "Organic Compounds Containing Oxygen",
+          "link": "revision-notes/chemistry/class-xii-alcohols-phenols-ethers"
+        },
+        {
+          "name": "Organic Compounds containing Nitrogen",
+          "link": "revision-notes/chemistry/class-xii-aldehydes-ketones-carboxylic-acids"
+        },
+        {
+          "name": "Biomolecules",
+          "link": "revision-notes/chemistry/class-xii-nitrogen-compounds"
+        },
+        {
+          "name": "Principles Related To Practical Chemistry",
+          "link": "revision-notes/chemistry/class-xii-principles-related-to-practical-chemistry"
+        }
+      ]
+    },
+    {
+      "subjectName": "Botany",
+      "chapters": [
+        {
+          "name": "Diversity in Living World",
+          "link": "revision-notes/botany/class-xi-biodiversity"
+        },
+        {
+          "name": "Morphology of Flowering Plants",
+          "link": "revision-notes/botany/class-xi-morphology-of-flowering-polants"
+        },
+        {
+          "name": "Cell: The Unit of Life",
+          "link": "revision-notes/botany/class-xi-cell-biology"
+        },
+        {
+          "name": "Transport in Plants",
+          "link": "revision-notes/botany/class-xi-plant-physiology"
+        },
+        {
+          "name": "Biotechnology and Its Applications",
+          "link": "revision-notes/botany/class-xii-biotechnology"
+        },
+        {
+          "name": "Biological Classification",
+          "link": "revision-notes/botany/class-xi-biological-classification"
+        },
+        {
+          "name": "Plant Kingdom",
+          "link": "revision-notes/botany/class-xi-plant-kingdom"
+        },
+        {
+          "name": "Anatomy of Flowering Plants",
+          "link": "revision-notes/botany/class-xi-anatomy-of-flowering-plants"
+        },
+        {
+          "name": "BiomoleculesBiomolecules",
+          "link": "revision-notes/botany/class-xi-biomolecules-biology"
+        },
+        {
+          "name": "Cell Cycle and Cell Division",
+          "link": "revision-notes/botany/class-xi-cell-cycle-and-cell-division"
+        },
+        {
+          "name": "Mineral Nutrition",
+          "link": "revision-notes/botany/class-xi-mineral-nutrition"
+        },
+        {
+          "name": "Photosynthesis in Higher Plants",
+          "link": "revision-notes/botany/class-xi-photosynthesis-in-higher-plants"
+        },
+        {
+          "name": "Respiration in Plants",
+          "link": "revision-notes/botany/class-xi-respiration-in-plants"
+        },
+        {
+          "name": "Plant Growth and Development",
+          "link": "revision-notes/botany/class-xi-plant-growth-and-development"
+        },
+        {
+          "name": "Sexual Reproduction in Flowering Plants",
+          "link": "revision-notes/botany/class-xii-sexual-reproduction-in-flowering-plants"
+        },
+        {
+          "name": "Molecular Basis of Inheritance",
+          "link": "revision-notes/botany/class-xii-molecular-basis-of-inheritance"
+        }
+      ]
+    },
+    {
+      "subjectName": "Zoology",
+      "chapters": [
+        {
+          "name": "Reproduction in Organisms",
+          "link": "revision-notes/zoology/class-xii-reproduction"
+        },
+        {
+          "name": "Genetic Evolution",
+          "link": "revision-notes/zoology/class-xii-genetics-evolution"
+        },
+        {
+          "name": "Strategies for Enhancement in Food Production",
+          "link": "revision-notes/zoology/class-xii-strategies-for-enhancement-in-food-production"
+        },
+        {
+          "name": "Microbes in Human Welfare",
+          "link": "revision-notes/zoology/class-xii-microbes-in-human-welfare"
+        },
+        {
+          "name": "Animal Kingdom",
+          "link": "revision-notes/zoology/class-xi-animal-kingdom"
+        },
+        {
+          "name": "Structural Organisation In Animals",
+          "link": "revision-notes/zoology/class-xi-structural-organisation-in-animals"
+        },
+        {
+          "name": "Breathing And Exchange Of Gases",
+          "link": "revision-notes/zoology/class-xi-breathing-and-exchange-of-gases"
+        },
+        {
+          "name": "Body Fluids And Circulation",
+          "link": "revision-notes/zoology/class-xi-body-fluids-and-circulation"
+        },
+        {
+          "name": "Excretory Products And Their Elimination",
+          "link": "revision-notes/zoology/class-xi-excretory-products-and-their-elimination"
+        },
+        {
+          "name": "Locomotion And Movement",
+          "link": "revision-notes/zoology/class-xi-locomotion-and-movement"
+        },
+        {
+          "name": "Neural Control And Coordination",
+          "link": "revision-notes/zoology/class-xi-neural-control-and-coordination"
+        },
+        {
+          "name": "Chemical Coordination and Integration",
+          "link": "revision-notes/zoology/class-xi-chemical-coordincation-and-integration"
+        },
+        {
+          "name": "Human Reproduction",
+          "link": "revision-notes/zoology/class-xii-human-reproduction"
+        },
+        {
+          "name": "Reproductive Health",
+          "link": "revision-notes/zoology/class-xii-reproductive-health"
+        }
+      ]
+    }
+  ]
+}

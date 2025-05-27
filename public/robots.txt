@@ -1,0 +1,3 @@
+User-agent: *
+allow: /
+Sitemap: https://neet.guide/sitemap.xml

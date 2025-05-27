@@ -1,0 +1,421 @@
+.ai_doubt_module h3,
+.ai_highlight_text,
+.ai_text,
+.dark .ai_text,
+.neet-mentor-div p {
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+@layer base {
+  .dark,
+  :root {
+    --destructive-foreground: 0 0% 98%;
+  }
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+  }
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+.multi-line-truncate {
+  display: -webkit-box;
+  max-width: 88%;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: #cacaca7f;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background-color: #edf2f7;
+  border-radius: 2px;
+}
+.scrollbar-thumb-dark::-webkit-scrollbar-thumb {
+  background-color: #4a55682e;
+}
+.scrollbar-thumb-dark::-webkit-scrollbar-track {
+  background-color: #061837bb;
+}
+.dark .scrollbar-thin::-webkit-scrollbar-track {
+  background-color: #000;
+}
+.dark .scrollbar-thin::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: #75757558;
+}
+.Custom_ScrollToBottom button {
+  border-radius: 100px !important;
+  width: 28px;
+  height: 28px;
+  border: 1px solid #1010108b;
+  background-color: transparent !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+  opacity: 50%;
+}
+.Custom_ScrollToBottom button::after {
+  display: block;
+  content: '\2193';
+  color: #1010108b;
+}
+.dark .Custom_ScrollToBottom button::after {
+  color: #fff !important;
+}
+.dark .Custom_ScrollToBottom button {
+  border: 1px solid #ffffff9f;
+}
+.ai_doubt_module {
+  background: linear-gradient(white, #fff) padding-box,
+    linear-gradient(to right, #4285f4, #8a4bd1, #c04c8a, #eb504f) border-box;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  animation: 2s linear infinite borderGradientAnimation;
+}
+.dark .ai_doubt_module {
+  background: linear-gradient(black, #000) padding-box,
+    linear-gradient(to right, #4285f4, #8a4bd1, #c04c8a, #eb504f) border-box !important;
+}
+.ai_doubt_module h3,
+.ai_highlight_text,
+.neet-mentor-div p {
+  background: linear-gradient(90deg, #4285f4, #8a4bd1, #c04c8a, #eb504f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-weight: 600;
+  animation: 2s linear infinite textGradientAnimation;
+}
+.ai_text {
+  background: linear-gradient(#0b57d0, #d00b6a);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.dark .ai_text {
+  background: linear-gradient(#4285f4, #d00b6a);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+@keyframes borderGradientAnimation {
+  0%,
+  75% {
+    background: linear-gradient(white, #fff) padding-box,
+      linear-gradient(to right, #8a4bd1, #c04c8a, #eb504f, #4285f4) border-box;
+  }
+  100%,
+  25% {
+    background: linear-gradient(white, #fff) padding-box,
+      linear-gradient(to right, #c04c8a, #eb504f, #4285f4, #8a4bd1) border-box;
+  }
+  50% {
+    background: linear-gradient(white, #fff) padding-box,
+      linear-gradient(to right, #eb504f, #4285f4, #8a4bd1, #c04c8a) border-box;
+  }
+}
+@keyframes textGradientAnimation {
+  0% {
+    border-image-source: linear-gradient(
+      90deg,
+      #4285f4,
+      #8a4bd1,
+      #c04c8a,
+      #eb504f
+    );
+  }
+  100% {
+    border-image-source: linear-gradient(
+      270deg,
+      #4285f4,
+      #8a4bd1,
+      #c04c8a,
+      #eb504f
+    );
+  }
+}
+.ai_search_area {
+  background-image: linear-gradient(
+    90deg,
+    #eb504f,
+    #4285f4,
+    #8a4bd1,
+    #c04c8a,
+    #eb504f
+  );
+  background-size: 400% 400%;
+  animation: 8s infinite backgroundGradientAnimation;
+  border-radius: 50px;
+}
+
+.tiny-content {
+  font-family: inherit !important;
+  color: #333;
+  line-height: 1.8;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ✅ Responsive images */
+.tiny-content img {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  margin: 10px auto !important;
+  object-fit: contain;
+}
+
+/* ✅ Responsive headings */
+.tiny-content h1 {
+  font-family: inherit !important;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: start;
+  margin: 20px 0;
+}
+
+.tiny-content h2 {
+  font-family: inherit !important;
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-top: 40px;
+  margin-bottom: 10px;
+  text-align: start !important;
+}
+
+.tiny-content h3 {
+  font-family: inherit !important;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 10px 0;
+  text-align: start !important;
+}
+.tiny-content h4 {
+  font-family: inherit !important;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 10px 0;
+  text-align: start !important;
+}
+
+/* ✅ Responsive paragraphs */
+.tiny-content p {
+  font-size: 18px !important;
+  font-family: inherit !important;
+  color: #4a4a4a !important;
+  margin-bottom: 15px !important;
+  text-align: start !important;
+  line-height: 28px !important;
+}
+
+/* ✅ Responsive paragraphs */
+.tiny-content code {
+  font-size: 18px !important;
+  font-family: inherit !important;
+  color: #4a4a4a !important;
+  margin-bottom: 15px !important;
+  text-align: start !important;
+}
+
+/* ✅ Responsive links */
+.tiny-content a {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.tiny-content a:hover {
+  color: #0056b3;
+}
+
+/* ✅ Responsive blockquotes */
+.tiny-content blockquote {
+  border-left: 4px solid #888;
+  padding-left: 15px;
+  font-style: italic;
+  margin: 15px 0;
+}
+
+/* ✅ Responsive lists */
+.tiny-content ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.tiny-content ol {
+  list-style-type: decimal;
+  margin-left: 20px;
+}
+
+/* ================== ✅ TABLE STYLING ================== */
+
+/* ✅ Make table responsive */
+.tiny-content table {
+  width: 100% !important;
+  max-width: 100% !important;
+  border-collapse: collapse;
+  table-layout: auto; /* Allows content to determine width */
+}
+
+/* ✅ Ensure table doesn't overflow */
+.tiny-content .table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+
+/* ✅ Apply scroll on smaller screens */
+@media (max-width: 768px) {
+  .tiny-content .table-wrapper {
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
+  }
+}
+
+/* ✅ Styling for table headers & cells */
+.tiny-content th,
+.tiny-content td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  word-break: break-word;
+}
+
+/* ✅ Adjust table font size for small screens */
+@media (max-width: 768px) {
+  .tiny-content th,
+  .tiny-content td {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
+
+/* ================== ✅ RESPONSIVE IFRAME ================== */
+
+/* ✅ Make iframe fully responsive */
+.tiny-content iframe {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  border: none;
+  margin-top: 20px;
+}
+
+/* ✅ Center iframe container */
+.tiny-content .iframe-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  overflow: hidden;
+}
+
+/* ✅ Adjust iframe for responsiveness */
+.tiny-content .iframe-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ================== ✅ MOBILE OPTIMIZATION ================== */
+
+/* ✅ Optimize layout for small screens */
+@media (max-width: 480px) {
+  .tiny-content {
+    padding: 10px;
+  }
+
+  .tiny-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .tiny-content h2 {
+    font-size: 1.3rem;
+  }
+
+  .tiny-content h3 {
+    font-size: 1.2rem;
+  }
+
+  .tiny-content p {
+    font-size: 0.95rem;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

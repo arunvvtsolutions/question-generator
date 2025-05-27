@@ -1,0 +1,43 @@
+[{
+    "name": "Physics",
+    "sections": [{
+        "name": "A",
+        "attendedQues": 35,
+        "total": 40
+      },
+      {
+        "name": "B",
+        "attendedQues": 15,
+        "total": 20
+      }
+    ]
+  },
+  {
+    "name": "Chemistry",
+    "sections": [{
+        "name": "A",
+        "attendedQues": 35,
+        "total": 40
+      },
+      {
+        "name": "B",
+        "attendedQues": 15,
+        "total": 20
+      }
+    ]
+  },
+  {
+    "name": "Biology",
+    "sections": [{
+        "name": "A",
+        "attendedQues": 35,
+        "total": 40
+      },
+      {
+        "name": "B",
+        "attendedQues": 15,
+        "total": 20
+      }
+    ]
+  }
+]

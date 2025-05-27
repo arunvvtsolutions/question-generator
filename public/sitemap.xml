@@ -1,0 +1,1256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:xhtml="http://www.w3.org/1999/xhtml"
+      xsi:schemaLocation="
+            http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    
+    <!-- Homepage -->
+    <url>
+        <loc>https://neet.guide/</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+    
+    <!-- Chapter wise Revision Notes Page -->
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xi-units-and-measurement</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xi-motion-in-a-straight-line</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xi-laws-of-motion</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xi-work-energy-power</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xi-rotational-motion</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xi-gravitation</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xi-properties-solids-liquids</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xi-thermodynamics</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xi-kinetic-theory-gases</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xi-oscillations-waves</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xii-electrostatics</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xii-current-electricity</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xii-magnetic-effects-current-and-magnetism</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xii-electromagnetic-induction</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xii-electromagnetic-waves</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xii-optics</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xii-dual-nature-matter-radiation</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xii-atoms-nuclei</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xii-electronic-devices</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xii-communication-system</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xi-basic-chemistry-concepts</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xi-atomic-structure</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xi-chemical-bonding</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xi-chemical-thermodynamics</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xi-chemical-equilibrium</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xi-classification-of-elements-and-periodicity-in-prop</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xi-p-block-elements</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xi-organic-chemistry-basics</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xi-hydrocarbons</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xii-solutions</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xii-electrochemistry</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xii-Chemical%20Kinetics</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xii-d-f-block-elements</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xii-coordination-compounds</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xii-purification-and-characterization-of-organic-compo</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xii-haloalkanes-haloarenes</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xii-alcohols-phenols-ethers</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xii-aldehydes-ketones-carboxylic-acids</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xii-nitrogen-compounds</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xii-principles-related-to-practical-chemistry</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-biodiversity</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-structural-organization</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-cell-biology</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-plant-physiology</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-human-physiology</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xii-reproduction</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xii-genetics-evolution</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xii-human-welfare</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xii-biotechnology</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xii-ecology-environment</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xi-motion-in-a-plane</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xi-mechanical-properties-of-fluids</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xi-thermal-properties-of-matter</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xii-waves</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xii-electrostatic-charges-and-fields</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xii-alternating-current</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/physics/class-xii-nuclei</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xi-classification-of-elements</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xi-the-s-block-elements</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xi-environmental-chemistry</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xii-the-solid-state</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xii-electrochemistry</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xii-surface-chemistry</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/chemistry/class-xii-general-principles-and-processes-of-isolation-of-e</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-biological-classification</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-plant-kingdom</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-anatomy-of-flowering-plants</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-biomolecules-biology</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-cell-cycle-and-cell-division</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-mineral-nutrition</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-photosynthesis-in-higher-plants</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-respiration-in-plants</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-plant-growth-and-development</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-animal-kingdom</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-structural-organisation-in-animals</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-breathing-and-exchange-of-gases</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-body-fluids-and-circulation</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-excretory-products-and-their-elimination</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-locomotion-and-movement</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-neural-control-and-coordination</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xi-chemical-coordincation-and-integration</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xii-sexual-reproduction-in-flowering-plants</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xii-molecular-basis-of-inheritance</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xii-strategies-for-enhancement-in-food-production</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xii-microbes-in-human-welfare</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xii-human-reproduction</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/revision-notes/biology/class-xii-reproductive-health</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+
+    <!-- Chapter wise Important Formulas Page -->
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xi-units-and-measurement</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xi-motion-in-a-straight-line</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xi-laws-of-motion</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xi-work-energy-power</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xi-rotational-motion</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xi-gravitation</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xi-properties-solids-liquids</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xi-thermodynamics</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xi-kinetic-theory-gases</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xi-oscillations-waves</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xii-electrostatics</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xii-current-electricity</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xii-magnetic-effects-current-and-magnetism</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xii-electromagnetic-induction</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xii-electromagnetic-waves</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xii-optics</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xii-dual-nature-matter-radiation</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xii-atoms-nuclei</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xii-electronic-devices</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xii-communication-system</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xi-basic-chemistry-concepts</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xi-atomic-structure</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xi-chemical-bonding</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xi-chemical-thermodynamics</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xi-chemical-equilibrium</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xi-classification-of-elements-and-periodicity-in-prop</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xi-p-block-elements</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xi-organic-chemistry-basics</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xi-hydrocarbons</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xii-solutions</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xii-electrochemistry</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xii-Chemical%20Kinetics</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xii-d-f-block-elements</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xii-coordination-compounds</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xii-purification-and-characterization-of-organic-compo</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xii-haloalkanes-haloarenes</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xii-alcohols-phenols-ethers</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xii-aldehydes-ketones-carboxylic-acids</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xii-nitrogen-compounds</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xii-principles-related-to-practical-chemistry</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-biodiversity</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-structural-organization</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-cell-biology</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-plant-physiology</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-human-physiology</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xii-reproduction</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xii-genetics-evolution</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xii-human-welfare</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xii-biotechnology</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xii-ecology-environment</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xi-motion-in-a-plane</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xi-mechanical-properties-of-fluids</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xi-thermal-properties-of-matter</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xii-waves</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xii-electrostatic-charges-and-fields</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xii-alternating-current</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/physics/class-xii-nuclei</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xi-classification-of-elements</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xi-the-s-block-elements</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xi-environmental-chemistry</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xii-the-solid-state</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xii-electrochemistry</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xii-surface-chemistry</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/chemistry/class-xii-general-principles-and-processes-of-isolation-of-e</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-biological-classification</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-plant-kingdom</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-anatomy-of-flowering-plants</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-biomolecules-biology</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-cell-cycle-and-cell-division</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-mineral-nutrition</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-photosynthesis-in-higher-plants</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-respiration-in-plants</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-plant-growth-and-development</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-animal-kingdom</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-structural-organisation-in-animals</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-breathing-and-exchange-of-gases</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-body-fluids-and-circulation</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-excretory-products-and-their-elimination</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-locomotion-and-movement</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-neural-control-and-coordination</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xi-chemical-coordincation-and-integration</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xii-sexual-reproduction-in-flowering-plants</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xii-molecular-basis-of-inheritance</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xii-strategies-for-enhancement-in-food-production</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xii-microbes-in-human-welfare</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xii-human-reproduction</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://neet.guide/important-formulas/biology/class-xii-reproductive-health</loc>
+        <lastmod>2024-09-11</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Signin and Signup page -->
+    <url>
+        <loc>https://neet.guide/sign-in</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <url>
+        <loc>https://neet.guide/sign-up</loc>
+        <lastmod>2024-08-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+ 
+    
+</urlset>
