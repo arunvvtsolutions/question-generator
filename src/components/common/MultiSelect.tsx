@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Badge } from "../ui/badge";
 import { convertSearchableTxt } from "@/utils";
 import { Input } from "../ui/input";
 
@@ -15,6 +14,7 @@ export interface IValueProps {
   value: any;
   label: string;
   optionalValue?: any;
+  group?: string;
 }
 
 const MultiSelect = ({
@@ -25,6 +25,7 @@ const MultiSelect = ({
   selectedValues,
   selectedValuePlaceHolder,
   handleSelectChange,
+  isGrouped = false,
 }: {
   isSearch?: boolean;
   placeHolder?: string;
@@ -33,10 +34,10 @@ const MultiSelect = ({
   selectedValues: IValueProps[];
   selectedValuePlaceHolder?: string;
   handleSelectChange: (option: IValueProps[]) => void;
+  isGrouped?: boolean;
 }) => {
   const [open, setOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
-
   const isValueExist = (option: IValueProps) =>
     selectedValues.some((value) => String(value.value) === String(option.value));
 
@@ -52,40 +53,34 @@ const MultiSelect = ({
     handleSelectChange(newData);
   };
 
+  // Function to format the display of selected values
+  const getDisplayText = () => {
+    if (selectedValues.length === 0) return placeHolder;
+    if (selectedValuePlaceHolder) {
+      return `${selectedValues.length + 1 === options.length ? "All" : selectedValues.length} ${selectedValuePlaceHolder}`;
+    }
+
+    // Show up to 2 labels, then append "+X more" if there are more
+    const maxDisplay = 2;
+    const displayedLabels = selectedValues.slice(0, maxDisplay).map((data) => data.label).join(", ");
+    const remainingCount = selectedValues.length - maxDisplay;
+    return remainingCount > 0 ? `${displayedLabels} +${remainingCount} more` : displayedLabels;
+  };
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" role="combobox" aria-expanded={open} className="w-full justify-between flex h-auto">
-          <div className="flex items-center gap-2">
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-full justify-between flex h-auto min-h-[40px] py-2 px-3"
+        >
+          <div className="flex items-center gap-2 flex-1 overflow-hidden">
             {startIcon}
-            {selectedValues.length ? (
-              <>
-                <div className="flex flex-wrap gap-2 ">
-                  {selectedValuePlaceHolder ? (
-                    <>
-                      <p>
-                        {selectedValues.length + 1 === options.length ? "All" : selectedValues.length}{" "}
-                        {selectedValuePlaceHolder}
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      (
-                      {selectedValues.slice(0, 5).map((data, index) => (
-                        <Badge variant="secondary" key={index}>
-                          <span className="max-w-[95px] w-full whitespace-nowrap overflow-hidden overflow-ellipsis">
-                            {data.label}
-                          </span>
-                        </Badge>
-                      ))}
-                      ){selectedValues.length > 5 && "..."}
-                    </>
-                  )}
-                </div>
-              </>
-            ) : (
-              <>{placeHolder}</>
-            )}
+            <span className="flex-1 truncate text-left">
+              {getDisplayText()}
+            </span>
           </div>
           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -95,7 +90,7 @@ const MultiSelect = ({
           {isSearch && (
             <div className="w-full p-2">
               <Input
-                className="w-100% focus-visible:outline-none focus-within:outline-none focus:outline-none"
+                className="w-full focus-visible:outline-none focus-within:outline-none focus:outline-none"
                 value={search}
                 placeholder={placeHolder}
                 onChange={(e) => setSearch(e.target.value)}
@@ -104,16 +99,58 @@ const MultiSelect = ({
           )}
           <CommandList className="scrollbar-thin">
             <CommandEmpty>No Data found.</CommandEmpty>
-            <CommandGroup>
-              {options
-                .filter((option) => convertSearchableTxt(option.label).includes(convertSearchableTxt(search)))
-                .map((option, index) => (
-                  <CommandItem key={index} value={option.value} onSelect={(value) => onSelect(value, option)}>
-                    {option.label}
-                    <CheckIcon className={cn("ml-auto h-4 w-4 text-[green]", isValueExist(option) ? "opacity-100" : "opacity-0")} />
-                  </CommandItem>
-                ))}
-            </CommandGroup>
+            {isGrouped ? (
+              // Group options by their group property
+              Object.entries(
+                options
+                  .filter((option) => convertSearchableTxt(option.label).includes(convertSearchableTxt(search)))
+                  .reduce((groups, option) => {
+                    const group = option.group || 'Other';
+                    return {
+                      ...groups,
+                      [group]: [...(groups[group] || []), option],
+                    };
+                  }, {} as Record<string, IValueProps[]>)
+              ).map(([groupName, groupOptions]) => (
+                <CommandGroup key={groupName} heading={groupName}>
+                  {groupOptions.map((option, index) => (
+                    <CommandItem
+                      key={`${groupName}-${index}`}
+                      value={option.value}
+                      onSelect={(value) => onSelect(value, option)}
+                    >
+                      {option.label}
+                      <CheckIcon
+                        className={cn(
+                          "ml-auto h-4 w-4 text-[green]",
+                          isValueExist(option) ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              ))
+            ) : (
+              <CommandGroup>
+                {options
+                  .filter((option) => convertSearchableTxt(option.label).includes(convertSearchableTxt(search)))
+                  .map((option, index) => (
+                    <CommandItem
+                      key={index}
+                      value={option.value}
+                      onSelect={(value) => onSelect(value, option)}
+                    >
+                      {option.label}
+                      <CheckIcon
+                        className={cn(
+                          "ml-auto h-4 w-4 text-[green]",
+                          isValueExist(option) ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                    </CommandItem>
+                  ))}
+              </CommandGroup>
+            )}
           </CommandList>
         </Command>
       </PopoverContent>

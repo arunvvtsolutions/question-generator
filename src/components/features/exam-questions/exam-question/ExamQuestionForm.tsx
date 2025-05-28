@@ -17,9 +17,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
-import { Progress } from "@/components/ui/progress";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import { createExamTestQuestions } from "@/utils/api/exam-question/exam-question";
+import { IOptionTypeCommonProps } from "@/types/common/db-types";
+import { SelectComboBox } from "@/components/SelectComboBox";
 
 interface IQuestionLevel {
   easy: number;
@@ -28,7 +30,7 @@ interface IQuestionLevel {
   veryHard: number;
 }
 
-type DifficultyLevel = "easy" | "medium" | "hard" | "veryHard";
+type DifficultyLevel = "easy" | "medium" | "hard" | "veryHard" | "";
 
 const difficultyLevels = [
   {
@@ -52,6 +54,36 @@ const difficultyLevels = [
     description: "5% Easy, 15% Medium, 30% Hard, 50% Very Hard",
   },
 ];
+
+// Yup validation schema
+const validationSchema = Yup.object({
+  testTitle: Yup.string()
+    .min(1, "Test title is required")
+    .required("Test title is required"),
+  description: Yup.string()
+    .min(1, "Description is required")
+    .required("Description is required"),
+  duration: Yup.number()
+    .typeError("Duration must be a number")
+    .positive("Duration must be greater than 0")
+    .required("Duration is required"),
+  noOfQuestions: Yup.number()
+    .typeError("Number of questions must be a number")
+    .positive("Number of questions must be greater than 0")
+    .required("Number of questions is required"),
+  selectedSubjects: Yup.array()
+    .min(1, "Please select at least one subject")
+    .required("Please select at least one subject"),
+  questionType: Yup.string()
+    .min(1, "Question Type is required")
+    .required("Question Type is required"),
+  selectedChapters: Yup.array()
+    .min(1, "Please select at least one chapter")
+    .required("Please select at least one chapter"),
+  selectedTopics: Yup.array()
+    .min(1, "Please select at least one topic")
+    .required("Please select at least one topic"),
+});
 
 const getQuestionDistribution = (
   totalQuestions: number,
@@ -110,7 +142,6 @@ const getQuestionDistribution = (
   const diff = totalQuestions - currentTotal;
 
   if (diff !== 0) {
-    // Add or subtract the difference from the primary category for the selected difficulty
     switch (selectedDifficulty) {
       case "easy":
         distribution.easy += diff;
@@ -129,523 +160,623 @@ const getQuestionDistribution = (
 
   return distribution;
 };
+
 const ExamQuestionForm: FC<IMainExamQuestionProps> = ({
   topics,
   chapters,
   subjects,
+  streams,
+  questionTypes,
   cognitiveLevel,
 }) => {
-  const [loading, setLoading] = useState(false);
+  console.log(questionTypes);
+
   const router = useRouter();
-  const [selectedSubjects, setSelectedSubjects] = useState<IValueProps[]>([]);
-  const [selectedChapters, setSelectedChapters] = useState<IValueProps[]>([]);
-  const [selectedTopics, setSelectedTopics] = useState<IValueProps[]>([]);
-  const [testTitle, setTestTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [duration, setDuration] = useState("30");
-  const [noOfQuestions, setNoOfQuestions] = useState("10");
-  const [level, setLevel] = useState("1");
+  const [loading, setLoading] = useState(false);
   const [selectedDifficulty, setSelectedDifficulty] =
-    useState<DifficultyLevel>("medium");
-  const [levels, setLevels] = useState<IQuestionLevel>({
-    easy: 2,
-    medium: 2,
-    hard: 4,
-    veryHard: 2,
-  });
+    useState<DifficultyLevel>("");
+  const [streamOptions, setStreamOptions] =
+    React.useState<IOptionTypeCommonProps[]>();
+  const [questionTypeOptions, setQuestionTypeOptions] =
+    useState<IOptionTypeCommonProps[]>();
+  useEffect(() => {
+    if (questionTypes && questionTypes.length > 0) {
+      const options = questionTypes.map((type) => ({
+        label: type.questionType,
+        value: type.id.toString(),
+      }));
+      setQuestionTypeOptions(options);
+    }
+  }, [questionTypes]);
+  useEffect(() => {
+    if (streams && streams.length > 0) {
+      const options = streams.map((stream) => ({
+        label: stream.streamName,
+        value: stream.id.toString(),
+      }));
+      setStreamOptions(options);
+    }
+  }, [streams]);
+  console.log(streamOptions);
+  console.log(questionTypeOptions);
+
+  const [levels, setLevels] = useState<IQuestionLevel>();
 
   const subjectOptions: IValueProps[] = subjects.map((subject) => ({
     label: subject.subjectName,
     value: subject.id.toString(),
+    group: "Subjects",
   }));
 
-  const filteredChapters = chapters.filter((chapter) =>
-    selectedSubjects.some(
-      (subject) => subject.value === chapter.subjectId.toString()
-    )
-  );
+  const getChapterOptions = (selectedSubjects: IValueProps[]) => {
+    const filteredChapters = chapters.filter((chapter) =>
+      selectedSubjects.some(
+        (subject) => subject.value === chapter.subjectId.toString()
+      )
+    );
 
-  const chapterOptions: IValueProps[] = filteredChapters.map((chapter) => ({
-    label: chapter.chapterName,
-    value: chapter.id.toString(),
-  }));
-
-  const filteredTopics = topics.filter((topic) =>
-    selectedChapters.some(
-      (chapter) => chapter.value === topic.chapterId.toString()
-    )
-  );
-
-  const topicOptions: IValueProps[] = filteredTopics.map((topic) => ({
-    label: topic.topicName,
-    value: topic.id.toString(),
-  }));
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    console.log(e, "form submit");
-    
-    if (!testTitle) {
-      toast({
-        title: "Error",
-        description: "Please enter test title",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (selectedSubjects.length === 0) {
-      toast({
-        title: "Error",
-        description: "Please select at least one subject",
-        variant: "destructive",
-      });
-      return;
-    }
-    if (selectedChapters.length === 0) {
-      toast({
-        title: "Error",
-        description: "Please select at least one chapter",
-        variant: "destructive",
-      });
-      return;
-    }
-    if (selectedTopics.length === 0) {
-      toast({
-        title: "Error",
-        description: "Please select at least one topic",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      // Create questions array with the required structure
-      const questions = selectedSubjects.map((subject) => ({
-        subjectId: parseInt(subject.value),
-        chapters: selectedChapters
-          .filter(
-            (chapter) =>
-              chapters
-                .find((c) => c.id.toString() === chapter.value)
-                ?.subjectId.toString() === subject.value
-          )
-          .map((chapter) => ({
-            chapterId: parseInt(chapter.value),
-            topics: selectedTopics
-              .filter(
-                (topic) =>
-                  topics
-                    .find((t) => t.id.toString() === topic.value)
-                    ?.chapterId.toString() === chapter.value
-              )
-              .map((topic) => ({ topicId: parseInt(topic.value) })),
-          })),
-      }));
-
-      // Clean up chapters by removing those with empty topics
-      const cleanedQuestions = questions.map(subject => ({
-        subjectId: subject.subjectId,
-        chapters: subject.chapters.filter(chapter => {
-          // Only include chapters that either have no topics array or have non-empty topics
-          return !chapter.topics || chapter.topics.length > 0;
-        })
-      })).filter(subject => subject.chapters.length > 0); // Remove subjects with no chapters
-
-      const payload = {
-        testTitle,
-        description,
-        streamId: 2,
-        userId: 365,
-        level: 1,
-        duration: parseInt(duration),
-        noOfQuestions: parseInt(noOfQuestions),
-        questions: cleanedQuestions,
-        levels,
+    return filteredChapters.map((chapter) => {
+      const subject = subjects.find((s) => s.id === chapter.subjectId);
+      return {
+        label: `${chapter.chapterName} (${
+          subject?.subjectName || "Unknown Subject"
+        })`,
+        value: chapter.id.toString(),
+        group: subject?.subjectName || "Other",
       };
-      await createExamTestQuestions(payload);
-      console.log(payload);
-      toast({
-        title: "Success",
-        description: "Question paper created successfully",
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Something went wrong",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
+    });
+  };
+
+  const getTopicOptions = (selectedChapters: IValueProps[]) => {
+    const filteredTopics = topics.filter((topic) =>
+      selectedChapters.some(
+        (chapter) => chapter.value === topic.chapterId.toString()
+      )
+    );
+
+    return filteredTopics.map((topic) => {
+      const chapter = chapters.find((c) => c.id === topic.chapterId);
+      return {
+        label: `${topic.topicName} (${
+          chapter?.chapterName || "Unknown Chapter"
+        })`,
+        value: topic.id.toString(),
+        group: chapter?.chapterName || "Other",
+      };
+    });
+  };
+
+  // Initial form values
+  const initialValues = {
+    testTitle: "",
+    description: "",
+    duration: "",
+    noOfQuestions: "",
+    questionType: "",
+    selectedSubjects: [] as IValueProps[],
+    selectedChapters: [] as IValueProps[],
+    selectedTopics: [] as IValueProps[],
   };
 
   return (
-    <>
-      {loading ? (
-        <div className="flex items-center justify-center">
-          <FeedbackLoader />
-        </div>
-      ) : (
-        <div className="w-[85%] mt-5 mx-auto p-6 bg-[#Ffff] border-[1px] dark:bg-[#0E0E0E]  rounded-[16px] dark:border-transparent">
-          <div className="py-3 border-b mb-8">
-            <h1 className="text-[20px] lg:text-[24px] font-semibold text-gray-800 dark:text-white">
-              Create the Question Paper
-            </h1>
-          </div>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={async (values, { setSubmitting }) => {
+        try {
+          setLoading(true);
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="flex justify-between gap-12">
-              {/* Left Section - Form Fields */}
-              <div className="space-y-6 w-[60%] pr-8 border-r border-gray-200 dark:border-gray-700">
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Test Title
-                  </label>
-                  <Input
-                    value={testTitle}
-                    onChange={(e) => setTestTitle(e.target.value)}
-                    placeholder="Enter test title"
-                    className="w-full"
-                  />
-                </div>
+          // Create questions array with the required structure
+          const questions = values.selectedSubjects.map((subject) => ({
+            subjectId: parseInt(subject.value),
+            chapters: values.selectedChapters
+              .filter(
+                (chapter) =>
+                  chapters
+                    .find((c) => c.id.toString() === chapter.value)
+                    ?.subjectId.toString() === subject.value
+              )
+              .map((chapter) => ({
+                chapterId: parseInt(chapter.value),
+                topics: values.selectedTopics
+                  .filter(
+                    (topic) =>
+                      topics
+                        .find((t) => t.id.toString() === topic.value)
+                        ?.chapterId.toString() === chapter.value
+                  )
+                  .map((topic) => ({ topicId: parseInt(topic.value) })),
+              })),
+          }));
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Description
-                  </label>
-                  <Input
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Enter test description"
-                    className="w-full"
-                  />
-                </div>
+          // Clean up chapters by removing those with empty topics
+          const cleanedQuestions = questions
+            .map((subject) => ({
+              subjectId: subject.subjectId,
+              chapters: subject.chapters.filter(
+                (chapter) => chapter.topics && chapter.topics.length > 0
+              ),
+            }))
+            .filter((subject) => subject.chapters.length > 0);
 
-                <div className="grid grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      Duration (minutes)
-                    </label>
-                    <Input
-                      type="number"
-                      value={duration}
-                      onChange={(e) => setDuration(e.target.value)}
-                      className="w-full"
-                    />
-                  </div>
+          const payload = {
+            questionType : parseInt(values.questionType),
+            testTitle: values.testTitle,
+            description: values.description,
+            streamId: 2,
+            userId: 365,
+            level: 1,
+            duration: parseInt(values.duration),
+            noOfQuestions: parseInt(values.noOfQuestions),
+            questions: cleanedQuestions,
+            levels,
+          };
 
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      No. of Questions
-                    </label>
-                    <Input
-                      type="number"
-                      value={noOfQuestions}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        setNoOfQuestions(value);
-                        const total = parseInt(value);
-                        if (!isNaN(total)) {
-                          setLevels(
-                            getQuestionDistribution(total, selectedDifficulty)
-                          );
-                        }
-                      }}
-                      className="w-full"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      Subjects
-                    </label>
-                    <MultiSelect
-                      options={subjectOptions}
-                      selectedValues={selectedSubjects}
-                      handleSelectChange={setSelectedSubjects}
-                      placeHolder="Select subjects"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Chapters
-                  </label>
-                  <MultiSelect
-                    options={chapterOptions}
-                    selectedValues={selectedChapters}
-                    handleSelectChange={setSelectedChapters}
-                    placeHolder="Select chapters"
-                    isSearch
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Topics
-                  </label>
-                  <MultiSelect
-                    options={topicOptions}
-                    selectedValues={selectedTopics}
-                    handleSelectChange={setSelectedTopics}
-                    placeHolder="Select topics"
-                    isSearch
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Difficulty Level
-                  </label>
-                  <Select
-                    value={selectedDifficulty}
-                    onValueChange={(value: DifficultyLevel) => {
-                      setSelectedDifficulty(value);
-                      const total = parseInt(noOfQuestions);
-                      if (!isNaN(total)) {
-                        setLevels(getQuestionDistribution(total, value));
-                      }
-                    }}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select difficulty">
-                        {selectedDifficulty &&
-                          difficultyLevels.find(
-                            (l) => l.value === selectedDifficulty
-                          )?.label}
-                      </SelectValue>
-                    </SelectTrigger>
-                    <SelectContent>
-                      {difficultyLevels.map((level) => (
-                        <SelectItem
-                          key={level.value}
-                          value={level.value}
-                          textValue={level.label}
-                        >
-                          <div className="flex flex-col gap-1">
-                            <div className="font-medium">{level.label}</div>
-                            <div className="text-xs text-muted-foreground">
-                              {level.description}
-                            </div>
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <Button
-                  type="submit"
-                  className="w-full bg-[#0B57D0] hover:bg-[#0B57D0]/90 text-white font-medium py-2.5 rounded-lg transition-colors"
-                  disabled={
-                    loading ||
-                    levels.easy +
-                      levels.medium +
-                      levels.hard +
-                      levels.veryHard !==
-                      parseInt(noOfQuestions)
-                  }
-                >
-                  {loading && <LoadingSpinner />}
-                  <span className="ms-3">
-                    {loading
-                      ? CREATE_STUDY_PLAN.GENERATING
-                      : CREATE_STUDY_PLAN.GENERATE_QUES}
-                  </span>
-                </Button>
+          await createExamTestQuestions(payload);
+          console.log(payload);
+          toast({
+            title: "Success",
+            description: "Question paper created successfully",
+          });
+          router.push("/question-paper");
+        } catch (error) {
+          toast({
+            title: "Error",
+            description: "Something went wrong",
+            variant: "destructive",
+          });
+        } finally {
+          setLoading(false);
+          setSubmitting(false);
+        }
+      }}
+    >
+      {({ values, setFieldValue, isSubmitting }) => (
+        <>
+          {loading ? (
+            <div className="flex items-center justify-center">
+              <FeedbackLoader />
+            </div>
+          ) : (
+            <div className="w-[85%] mt-5 mx-auto p-6 bg-[#Ffff] border-[1px] dark:bg-[#0E0E0E] rounded-[16px] dark:border-transparent">
+              <div className="py-3 border-b mb-8">
+                <h1 className="text-[20px] lg:text-[24px] font-semibold text-gray-800 dark:text-white">
+                  Create the Question Paper
+                </h1>
               </div>
-              {/* Right Section - Distribution */}
-              <div className="space-y-6 py-6 w-[40%] bg-gray-50 dark:bg-gray-900 rounded-xl p-6 border border-gray-100 dark:border-gray-800 shadow-sm">
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
-                  Question Distribution
-                </h3>
 
-                <div className="space-y-4">
-                  {/* Easy Questions */}
-                  <div className="relative">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium">
-                          Easy (
-                          {selectedDifficulty === "easy"
-                            ? "50"
-                            : selectedDifficulty === "medium"
-                            ? "20"
-                            : selectedDifficulty === "hard"
-                            ? "10"
-                            : "5"}
-                          %)
-                        </span>
+              <Form className="space-y-6">
+                <div className="flex justify-between gap-12">
+                  {/* Left Section - Form Fields */}
+                  <div className="space-y-6 w-[60%] pr-8 border-r border-gray-200 dark:border-gray-700">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
+                        Test Title
+                      </label>
+                      <Field
+                        name="testTitle"
+                        as={Input}
+                        placeholder="Enter test title"
+                        className="w-full"
+                      />
+                      <ErrorMessage
+                        name="testTitle"
+                        component="p"
+                        className="text-xs text-red-500 mt-1"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
+                        Description
+                      </label>
+                      <Field
+                        name="description"
+                        as={Input}
+                        placeholder="Enter test description"
+                        className="w-full"
+                      />
+                      <ErrorMessage
+                        name="description"
+                        component="p"
+                        className="text-xs text-red-500 mt-1"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-2">
+                          Duration (minutes)
+                        </label>
+                        <Field
+                          name="duration"
+                          type="number"
+                          as={Input}
+                          className="w-full"
+                        />
+                        <ErrorMessage
+                          name="duration"
+                          component="p"
+                          className="text-xs text-red-500 mt-1"
+                        />
                       </div>
-                      <span className="text-sm text-muted-foreground">
-                        {levels.easy} questions
-                      </span>
+
+                      <div>
+                        <label className="block text-sm font-medium mb-2">
+                          No. of Questions
+                        </label>
+                        <Field
+                          name="noOfQuestions"
+                          type="number"
+                          as={Input}
+                          className="w-full"
+                          onChange={(
+                            e: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            const value = e.target.value;
+                            setFieldValue("noOfQuestions", value);
+                            const total = parseInt(value);
+                            if (!isNaN(total)) {
+                              setLevels(
+                                getQuestionDistribution(
+                                  total,
+                                  selectedDifficulty
+                                )
+                              );
+                            }
+                          }}
+                        />
+                        <ErrorMessage
+                          name="noOfQuestions"
+                          component="p"
+                          className="text-xs text-red-500 mt-1"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium mb-2">
+                          Subjects
+                        </label>
+                        <MultiSelect
+                          options={subjectOptions}
+                          selectedValues={values.selectedSubjects}
+                          handleSelectChange={(newValues) =>
+                            setFieldValue("selectedSubjects", newValues)
+                          }
+                          placeHolder="Select subjects"
+                        />
+                        <ErrorMessage
+                          name="selectedSubjects"
+                          component="p"
+                          className="text-xs text-red-500 mt-1"
+                        />
+                      </div>
                     </div>
-                    <div className="w-full h-2 bg-green-100 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-green-500 transition-all duration-300"
-                        style={{
-                          width:
-                            selectedDifficulty === "easy"
-                              ? "50%"
-                              : selectedDifficulty === "medium"
-                              ? "20%"
-                              : selectedDifficulty === "hard"
-                              ? "10%"
-                              : "5%",
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
+                        Select Question Type
+                      </label>
+                      <SelectComboBox
+                        onChange={(value) =>
+                          setFieldValue("questionType", value)
+                        }
+                        options={questionTypeOptions || []}
+                        value={values.questionType}
+                        showSearch
+                        placeholder="Select question type"
+                      />
+                      <ErrorMessage
+                        name="questionType"
+                        component="p"
+                        className="text-xs text-red-500 mt-1"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
+                        Chapters
+                      </label>
+                      <MultiSelect
+                        options={getChapterOptions(values.selectedSubjects)}
+                        selectedValues={values.selectedChapters}
+                        handleSelectChange={(newValues) => {
+                          setFieldValue("selectedChapters", newValues);
+                          // Clear topics when chapters change
+                          setFieldValue("selectedTopics", []);
                         }}
-                      ></div>
+                        placeHolder="Select chapters by subject"
+                        isSearch
+                        isGrouped
+                      />
+                      <ErrorMessage
+                        name="selectedChapters"
+                        component="p"
+                        className="text-xs text-red-500 mt-1"
+                      />
                     </div>
+
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
+                        Topics
+                      </label>
+
+                      <MultiSelect
+                        options={getTopicOptions(values.selectedChapters)}
+                        selectedValues={values.selectedTopics}
+                        handleSelectChange={(newValues) =>
+                          setFieldValue("selectedTopics", newValues)
+                        }
+                        placeHolder="Select topics by chapter"
+                        isSearch
+                        isGrouped
+                      />
+                      <ErrorMessage
+                        name="selectedTopics"
+                        component="p"
+                        className="text-xs text-red-500 mt-1"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
+                        Difficulty Level
+                      </label>
+                      <Select
+                        value={selectedDifficulty}
+                        onValueChange={(value: DifficultyLevel) => {
+                          setSelectedDifficulty(value);
+                          const total = parseInt(values.noOfQuestions);
+                          if (!isNaN(total)) {
+                            setLevels(getQuestionDistribution(total, value));
+                          }
+                        }}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select difficulty">
+                            {selectedDifficulty &&
+                              difficultyLevels.find(
+                                (l) => l.value === selectedDifficulty
+                              )?.label}
+                          </SelectValue>
+                        </SelectTrigger>
+                        <SelectContent>
+                          {difficultyLevels.map((level) => (
+                            <SelectItem
+                              key={level.value}
+                              value={level.value}
+                              textValue={level.label}
+                            >
+                              <div className="flex flex-col gap-1">
+                                <div className="font-medium">{level.label}</div>
+                                <div className="text-xs text-muted-foreground">
+                                  {level.description}
+                                </div>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      className="w-full bg-[#0B57D0] hover:bg-[#0B57D0]/90 text-white font-medium py-2.5 rounded-lg transition-colors"
+                      // disabled={
+                      //   isSubmitting ||
+                      //   levels.easy +
+                      //     levels.medium +
+                      //     levels.hard +
+                      //     levels.veryHard !==
+                      //     parseInt(values.noOfQuestions)
+                      // }
+                    >
+                      {loading && <LoadingSpinner />}
+                      <span className="ms-3">
+                        {loading
+                          ? CREATE_STUDY_PLAN.GENERATING
+                          : CREATE_STUDY_PLAN.GENERATE_QUES}
+                      </span>
+                    </Button>
                   </div>
 
-                  {/* Medium Questions */}
-                  <div className="relative">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium">
-                          Medium (
-                          {selectedDifficulty === "easy"
-                            ? "30"
-                            : selectedDifficulty === "medium"
-                            ? "50"
-                            : selectedDifficulty === "hard"
-                            ? "20"
-                            : "15"}
-                          %)
-                        </span>
+                  {/* Right Section - Distribution */}
+                  {levels && (
+                    <div className="space-y-6 py-6 w-[40%] bg-gray-50 dark:bg-gray-900 rounded-xl p-6 border border-gray-100 dark:border-gray-800 shadow-sm">
+                    <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
+                      Question Distribution
+                    </h3>
+
+                    <div className="space-y-4">
+                      {/* Easy Questions */}
+                      <div className="relative">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium">
+                              Easy (
+                              {selectedDifficulty === "easy"
+                                ? "50"
+                                : selectedDifficulty === "medium"
+                                ? "20"
+                                : selectedDifficulty === "hard"
+                                ? "10"
+                                : "5"}
+                              %)
+                            </span>
+                          </div>
+                          <span className="text-sm text-muted-foreground">
+                            {levels?.easy} questions
+                          </span>
+                        </div>
+                        <div className="w-full h-2 bg-green-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-green-500 transition-all duration-300"
+                            style={{
+                              width:
+                                selectedDifficulty === "easy"
+                                  ? "50%"
+                                  : selectedDifficulty === "medium"
+                                  ? "20%"
+                                  : selectedDifficulty === "hard"
+                                  ? "10%"
+                                  : "5%",
+                            }}
+                          ></div>
+                        </div>
                       </div>
-                      <span className="text-sm text-muted-foreground">
-                        {levels.medium} questions
+
+                      {/* Medium Questions */}
+                      <div className="relative">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium">
+                              Medium (
+                              {selectedDifficulty === "easy"
+                                ? "30"
+                                : selectedDifficulty === "medium"
+                                ? "50"
+                                : selectedDifficulty === "hard"
+                                ? "20"
+                                : "15"}
+                              %)
+                            </span>
+                          </div>
+                          <span className="text-sm text-muted-foreground">
+                            {levels?.medium} questions
+                          </span>
+                        </div>
+                        <div className="w-full h-2 bg-yellow-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-yellow-500 transition-all duration-300"
+                            style={{
+                              width:
+                                selectedDifficulty === "easy"
+                                  ? "30%"
+                                  : selectedDifficulty === "medium"
+                                  ? "50%"
+                                  : selectedDifficulty === "hard"
+                                  ? "20%"
+                                  : "15%",
+                            }}
+                          ></div>
+                        </div>
+                      </div>
+
+                      {/* Hard Questions */}
+                      <div className="relative">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium">
+                              Hard (
+                              {selectedDifficulty === "easy"
+                                ? "15"
+                                : selectedDifficulty === "medium"
+                                ? "20"
+                                : selectedDifficulty === "hard"
+                                ? "50"
+                                : "30"}
+                              %)
+                            </span>
+                          </div>
+                          <span className="text-sm text-muted-foreground">
+                            {levels?.hard} questions
+                          </span>
+                        </div>
+                        <div className="w-full h-2 bg-red-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-red-500 transition-all duration-300"
+                            style={{
+                              width:
+                                selectedDifficulty === "easy"
+                                  ? "15%"
+                                  : selectedDifficulty === "medium"
+                                  ? "20%"
+                                  : selectedDifficulty === "hard"
+                                  ? "50%"
+                                  : "30%",
+                            }}
+                          ></div>
+                        </div>
+                      </div>
+
+                      {/* Very Hard Questions */}
+                      <div className="relative">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium">
+                              Very Hard (
+                              {selectedDifficulty === "easy"
+                                ? "5"
+                                : selectedDifficulty === "medium"
+                                ? "10"
+                                : selectedDifficulty === "hard"
+                                ? "20"
+                                : "50"}
+                              %)
+                            </span>
+                          </div>
+                          <span className="text-sm text-muted-foreground">
+                            {levels?.veryHard} questions
+                          </span>
+                        </div>
+                        <div className="w-full h-2 bg-purple-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-purple-500 transition-all duration-300"
+                            style={{
+                              width:
+                                selectedDifficulty === "easy"
+                                  ? "5%"
+                                  : selectedDifficulty === "medium"
+                                  ? "10%"
+                                  : selectedDifficulty === "hard"
+                                  ? "20%"
+                                  : "50%",
+                            }}
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-center pt-4 border-t mt-4">
+                      <span className="text-sm font-medium">
+                        Total Questions
+                      </span>
+                      <span
+                        className={`text-sm font-medium ${
+                          levels.easy +
+                            levels.medium +
+                            levels.hard +
+                            levels.veryHard !==
+                          parseInt(values.noOfQuestions)
+                            ? "text-red-500"
+                            : ""
+                        }`}
+                      >
+                        {levels.easy +
+                          levels.medium +
+                          levels.hard +
+                          levels.veryHard}{" "}
+                        / {values.noOfQuestions}
                       </span>
                     </div>
-                    <div className="w-full h-2 bg-yellow-100 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-yellow-500 transition-all duration-300"
-                        style={{
-                          width:
-                            selectedDifficulty === "easy"
-                              ? "30%"
-                              : selectedDifficulty === "medium"
-                              ? "50%"
-                              : selectedDifficulty === "hard"
-                              ? "20%"
-                              : "15%",
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-
-                  {/* Hard Questions */}
-                  <div className="relative">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium">
-                          Hard (
-                          {selectedDifficulty === "easy"
-                            ? "15"
-                            : selectedDifficulty === "medium"
-                            ? "20"
-                            : selectedDifficulty === "hard"
-                            ? "50"
-                            : "30"}
-                          %)
-                        </span>
-                      </div>
-                      <span className="text-sm text-muted-foreground">
-                        {levels.hard} questions
-                      </span>
-                    </div>
-                    <div className="w-full h-2 bg-red-100 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-red-500 transition-all duration-300"
-                        style={{
-                          width:
-                            selectedDifficulty === "easy"
-                              ? "15%"
-                              : selectedDifficulty === "medium"
-                              ? "20%"
-                              : selectedDifficulty === "hard"
-                              ? "50%"
-                              : "30%",
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-
-                  {/* Very Hard Questions */}
-                  <div className="relative">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium">
-                          Very Hard (
-                          {selectedDifficulty === "easy"
-                            ? "5"
-                            : selectedDifficulty === "medium"
-                            ? "10"
-                            : selectedDifficulty === "hard"
-                            ? "20"
-                            : "50"}
-                          %)
-                        </span>
-                      </div>
-                      <span className="text-sm text-muted-foreground">
-                        {levels.veryHard} questions
-                      </span>
-                    </div>
-                    <div className="w-full h-2 bg-purple-100 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-purple-500 transition-all duration-300"
-                        style={{
-                          width:
-                            selectedDifficulty === "easy"
-                              ? "5%"
-                              : selectedDifficulty === "medium"
-                              ? "10%"
-                              : selectedDifficulty === "hard"
-                              ? "20%"
-                              : "50%",
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex justify-between items-center pt-4 border-t mt-4">
-                  <span className="text-sm font-medium">Total Questions</span>
-                  <span
-                    className={`text-sm font-medium ${
-                      levels.easy +
-                        levels.medium +
-                        levels.hard +
-                        levels.veryHard !==
-                      parseInt(noOfQuestions)
-                        ? "text-red-500"
-                        : ""
-                    }`}
-                  >
                     {levels.easy +
                       levels.medium +
                       levels.hard +
-                      levels.veryHard}{" "}
-                    / {noOfQuestions}
-                  </span>
+                      levels.veryHard !==
+                      parseInt(values.noOfQuestions) && (
+                      <p className="text-xs text-red-500 mt-1">
+                        Total questions must match the specified number of
+                        questions
+                      </p>
+                    )}
+                  </div>
+                  )}
                 </div>
-                {levels.easy + levels.medium + levels.hard + levels.veryHard !==
-                  parseInt(noOfQuestions) && (
-                  <p className="text-xs text-red-500 mt-1">
-                    Total questions must match the specified number of questions
-                  </p>
-                )}
-              </div>
+              </Form>
             </div>
-          </form>
-        </div>
+          )}
+        </>
       )}
-    </>
+    </Formik>
   );
 };
 
