@@ -89,7 +89,7 @@ export const viewGeneratedQuestions = async (): Promise<{ success: boolean; data
 
 export const getCognitiveLevel = async (): Promise<{
   success: boolean;
-  data: ICognitiveLevelProps[];
+  data: any[];
 }> => {
   try {
      const res = await axios.get(`${BASE_URL}/${Api_endpoint.get_cognitive_level}`);

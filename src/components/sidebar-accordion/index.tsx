@@ -43,6 +43,13 @@ const SideBarAccordion = ({ setOpen }: { setOpen?: (open: boolean) => void }) =>
         setOpen={setOpen}
       />
 
+      <SidebarMenuItem
+        icon={<QuestionAndAnswerIcon className="w-[16px]" />}
+        link={`/exam-question`}
+        linkText='Exam Questions'
+        setOpen={setOpen}
+      />
+
       {/* <SidebarSkelton /> */}
     </>
   );

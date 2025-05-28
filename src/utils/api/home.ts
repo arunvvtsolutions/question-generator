@@ -19,7 +19,7 @@ export const getBookDetails = async (): Promise<
 
 export const getAllChapters = async (): Promise<{
   success: boolean;
-  data?: IChapterDetailsProps[];
+  data?: any[];
   message: string;
 }> => {
   try {
@@ -32,7 +32,7 @@ export const getAllChapters = async (): Promise<{
 
 export const getAllTopics = async (): Promise<{
   success: boolean;
-  data?: ITopicDatas[];
+  data?: any[];
   message: string;
 }> => {
   try {
@@ -45,7 +45,7 @@ export const getAllTopics = async (): Promise<{
 
 export const getAllSubjects = async (): Promise<{
   success: boolean;
-  data?: ISubjectProps[];
+  data?: any[];
   message: string;
 }> => {
   try {
