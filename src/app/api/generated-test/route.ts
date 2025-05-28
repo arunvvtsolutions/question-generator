@@ -6,12 +6,117 @@ import { verfiyAuthentication } from "@/utils";
 export const GET = async (request: NextRequest) => {
   try {
     console.log(request.headers);
-    
+
     const user: any = verfiyAuthentication(
       request.headers.get("authorization")
     );
     if (user.status === 401) return user;
-    console.log("user", user);
+    const generatedTestList = await prisma.generated_test.findMany({
+      where: {
+        user_id: user.id,
+      },
+      select: {
+        s_no: true,
+        ai_model_id: true,
+        user_id: true,
+        stream_id: true,
+        test_title: true,
+        description: true,
+        question_type_id: true,
+        no_of_questions: true,
+        duration: true,
+        level: true,
+        created_at: true,
+        updated_at: true,
+        generated_test_question: {
+          select: {
+            s_no: true,
+            question_id: true,
+            chapter_id: true,
+            subject_id: true,
+            topic_id: true,
+            test_id: true,
+            ai_questions: {
+              select: {
+                id: true,
+                uuid: true,
+                question: true,
+                answerDesc: true,
+                difficulty: true,
+                questionType: true,
+                addedDate: true,
+                subjectId: true,
+                chapterId: true,
+                topicId: true,
+                optionA: true,
+                optionB: true,
+                optionC: true,
+                optionD: true,
+                correctOpt: true,
+                model_id: true,
+                updatedDate: true,
+                cognitive_level: true,
+                estimated_time: true,
+                cognitiveLevel: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    const resModal = generatedTestList.map((item) => {
+      return {
+        id: item.s_no,
+        aiModelId: item.ai_model_id,
+        userId: item.user_id,
+        streamId: item.stream_id,
+        testTitle: item.test_title,
+        description: item.description,
+        questionTypeId: item.question_type_id,
+        noOfQuestions: item.no_of_questions,
+        duration: item.duration,
+        level: item.level,
+        createdAt: item.created_at,
+        updatedAt: item.updated_at,
+        generatedTestQuestion: item.generated_test_question.map((q: any) => ({
+          id: q.s_no,
+          questionId: q.question_id,
+          chapterId: q.chapter_id,
+          subjectId: q.subject_id,
+          topicId: q.topic_id,
+          testId: q.test_id,
+          aiQuestions: {
+            id: q.ai_questions.id,
+            uuid: q.ai_questions.uuid,
+            question: q.ai_questions.question,
+            answerDesc: q.ai_questions.answerDesc,
+            difficulty: q.ai_questions.difficulty,
+            questionType: q.ai_questions.questionType,
+            addedDate: q.ai_questions.addedDate,
+            subjectId: q.ai_questions.subjectId,
+            chapterId: q.ai_questions.chapterId,
+            topicId: q.ai_questions.topicId,
+            optionA: q.ai_questions.optionA,
+            optionB: q.ai_questions.optionB,
+            optionC: q.ai_questions.optionC,
+            optionD: q.ai_questions.optionD,
+            correctOpt: q.ai_questions.correctOpt,
+            modelId: q.ai_questions.model_id,
+            updatedDate: q.ai_questions.updatedDate,
+            cognitiveLevel: q.ai_questions.cognitiveLevel,
+            estimatedTime: q.ai_questions.estimated_time,
+          },
+        })),
+      };
+    });
+    console.log("resModal", resModal);
+    return NextResponse.json(
+      {
+        success: true,
+        data: resModal,
+      },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json(
       { success: false, message: "Internal Server Error" },
@@ -31,14 +136,15 @@ type DifficultyLabel = keyof typeof levelMap;
 
 // Zod validation
 const testSchema = z.object({
+  questionId: z.number().int(),
+  examId: z.number().int(),
+  aiModelId: z.number().int(),
+  userId: z.number().int(),
   testTitle: z.string().min(1),
   description: z.string().optional(),
-  streamId: z.number().int(),
-  userId: z.number().int(),
   level: z.number().int(),
   duration: z.number().int().positive(),
   noOfQuestions: z.number().int().positive(),
-  questionType : z.number().int(),
   questions: z.array(
     z.object({
       subjectId: z.number().int(),
@@ -64,10 +170,8 @@ const testSchema = z.object({
 
 export const POST = async (req: NextRequest) => {
   try {
-    
     const body = await req.json();
     const parsed = testSchema.safeParse(body);
-
     console.log("Received request body:", body);
     console.log("Parsed data:", parsed);
 
@@ -309,12 +413,13 @@ export const POST = async (req: NextRequest) => {
         data: {
           test_title: data.testTitle,
           description: data.description || "",
-          stream_id: data.streamId,
+          stream_id: data.examId,
           user_id: data.userId,
+          ai_model_id: data.aiModelId,
           no_of_questions: data.noOfQuestions,
           duration: data.duration,
           level: data.level,
-          question_type_id : data.questionType,
+          question_type_id: data.questionId,
         },
       });
 

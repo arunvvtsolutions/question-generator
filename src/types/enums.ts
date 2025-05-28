@@ -207,6 +207,12 @@ export const Api_endpoint = {
 
   // question types
   get_question_types: 'api/question-type',
+
+  // ai models
+  get_ai_models: 'api/ai-model',
+
+  // generate test 
+  generated_test: 'api/generated-test',
 };
 
 

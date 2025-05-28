@@ -19,9 +19,10 @@ import {
 } from "@/components/ui/select";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { createExamTestQuestions } from "@/utils/api/exam-question/exam-question";
+import { createExamTestQuestions } from "@/utils/api/(ai-related)/exam-question/exam-question";
 import { IOptionTypeCommonProps } from "@/types/common/db-types";
 import { SelectComboBox } from "@/components/SelectComboBox";
+import { RootState, useSelector } from "@/store";
 
 interface IQuestionLevel {
   easy: number;
@@ -77,6 +78,12 @@ const validationSchema = Yup.object({
   questionType: Yup.string()
     .min(1, "Question Type is required")
     .required("Question Type is required"),
+  aiModel: Yup.string()
+    .min(1, "AI Model is required")
+    .required("AI Model is required"),
+  examSelection: Yup.string()
+    .min(1, "Exam is required")
+    .required("Exam is required"),
   selectedChapters: Yup.array()
     .min(1, "Please select at least one chapter")
     .required("Please select at least one chapter"),
@@ -167,18 +174,26 @@ const ExamQuestionForm: FC<IMainExamQuestionProps> = ({
   subjects,
   streams,
   questionTypes,
+  aiModels,
   cognitiveLevel,
 }) => {
-  console.log(questionTypes);
+  console.log(aiModels);
+  const { user } = useSelector((state: RootState) => state.authReducer);
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+
   const [selectedDifficulty, setSelectedDifficulty] =
     useState<DifficultyLevel>("");
   const [streamOptions, setStreamOptions] =
     React.useState<IOptionTypeCommonProps[]>();
   const [questionTypeOptions, setQuestionTypeOptions] =
     useState<IOptionTypeCommonProps[]>();
+  const [aiModelOptions, setAiModelOptions] =
+    useState<IOptionTypeCommonProps[]>();
+
+  console.log(aiModelOptions);
+
   useEffect(() => {
     if (questionTypes && questionTypes.length > 0) {
       const options = questionTypes.map((type) => ({
@@ -188,6 +203,17 @@ const ExamQuestionForm: FC<IMainExamQuestionProps> = ({
       setQuestionTypeOptions(options);
     }
   }, [questionTypes]);
+
+  useEffect(() => {
+    if (aiModels && aiModels.length > 0) {
+      const options = aiModels.map((model) => ({
+        label: model.name,
+        value: model.id.toString(),
+      }));
+      setAiModelOptions(options);
+    }
+  }, [aiModels]);
+
   useEffect(() => {
     if (streams && streams.length > 0) {
       const options = streams.map((stream) => ({
@@ -248,8 +274,10 @@ const ExamQuestionForm: FC<IMainExamQuestionProps> = ({
 
   // Initial form values
   const initialValues = {
+    aiModel: "",
     testTitle: "",
     description: "",
+    examSelection: "",
     duration: "",
     noOfQuestions: "",
     questionType: "",
@@ -298,13 +326,14 @@ const ExamQuestionForm: FC<IMainExamQuestionProps> = ({
               ),
             }))
             .filter((subject) => subject.chapters.length > 0);
-
+          if (!user?.id) return;
           const payload = {
-            questionType : parseInt(values.questionType),
+            userId: user.id,
+            examId: parseInt(values.examSelection),
+            questionId: parseInt(values.questionType),
+            aiModelId: parseInt(values.aiModel),
             testTitle: values.testTitle,
             description: values.description,
-            streamId: 2,
-            userId: 365,
             level: 1,
             duration: parseInt(values.duration),
             noOfQuestions: parseInt(values.noOfQuestions),
@@ -313,12 +342,12 @@ const ExamQuestionForm: FC<IMainExamQuestionProps> = ({
           };
 
           await createExamTestQuestions(payload);
-          console.log(payload);
+          console.log("payload", payload);
           toast({
             title: "Success",
             description: "Question paper created successfully",
           });
-          router.push("/question-paper");
+          router.push("/exam-list");
         } catch (error) {
           toast({
             title: "Error",
@@ -400,7 +429,6 @@ const ExamQuestionForm: FC<IMainExamQuestionProps> = ({
                           className="text-xs text-red-500 mt-1"
                         />
                       </div>
-
                       <div>
                         <label className="block text-sm font-medium mb-2">
                           No. of Questions
@@ -432,21 +460,59 @@ const ExamQuestionForm: FC<IMainExamQuestionProps> = ({
                           className="text-xs text-red-500 mt-1"
                         />
                       </div>
-
                       <div>
                         <label className="block text-sm font-medium mb-2">
-                          Subjects
+                          Exam Selection
                         </label>
-                        <MultiSelect
-                          options={subjectOptions}
-                          selectedValues={values.selectedSubjects}
-                          handleSelectChange={(newValues) =>
-                            setFieldValue("selectedSubjects", newValues)
+                        <SelectComboBox
+                          onChange={(value) =>
+                            setFieldValue("examSelection", value)
                           }
-                          placeHolder="Select subjects"
+                          options={streamOptions || []}
+                          value={values.examSelection}
+                          showSearch
+                          placeholder="Select exam"
                         />
                         <ErrorMessage
-                          name="selectedSubjects"
+                          name="examSelection"
+                          component="p"
+                          className="text-xs text-red-500 mt-1"
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-2">
+                          Select Question Type
+                        </label>
+                        <SelectComboBox
+                          onChange={(value) =>
+                            setFieldValue("questionType", value)
+                          }
+                          options={questionTypeOptions || []}
+                          value={values.questionType}
+                          showSearch
+                          placeholder="Select question type"
+                        />
+                        <ErrorMessage
+                          name="questionType"
+                          component="p"
+                          className="text-xs text-red-500 mt-1"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-2">
+                          Select AI Model
+                        </label>
+                        <SelectComboBox
+                          onChange={(value) => setFieldValue("aiModel", value)}
+                          options={aiModelOptions || []}
+                          value={values.aiModel}
+                          showSearch
+                          placeholder="Select AI Model"
+                        />
+                        <ErrorMessage
+                          name="aiModel"
                           component="p"
                           className="text-xs text-red-500 mt-1"
                         />
@@ -454,24 +520,22 @@ const ExamQuestionForm: FC<IMainExamQuestionProps> = ({
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-2">
-                        Select Question Type
+                        Subjects
                       </label>
-                      <SelectComboBox
-                        onChange={(value) =>
-                          setFieldValue("questionType", value)
+                      <MultiSelect
+                        options={subjectOptions}
+                        selectedValues={values.selectedSubjects}
+                        handleSelectChange={(newValues) =>
+                          setFieldValue("selectedSubjects", newValues)
                         }
-                        options={questionTypeOptions || []}
-                        value={values.questionType}
-                        showSearch
-                        placeholder="Select question type"
+                        placeHolder="Select subjects"
                       />
                       <ErrorMessage
-                        name="questionType"
+                        name="selectedSubjects"
                         component="p"
                         className="text-xs text-red-500 mt-1"
                       />
                     </div>
-
                     <div>
                       <label className="block text-sm font-medium mb-2">
                         Chapters
@@ -582,193 +646,193 @@ const ExamQuestionForm: FC<IMainExamQuestionProps> = ({
                   {/* Right Section - Distribution */}
                   {levels && (
                     <div className="space-y-6 py-6 w-[40%] bg-gray-50 dark:bg-gray-900 rounded-xl p-6 border border-gray-100 dark:border-gray-800 shadow-sm">
-                    <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
-                      Question Distribution
-                    </h3>
+                      <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
+                        Question Distribution
+                      </h3>
 
-                    <div className="space-y-4">
-                      {/* Easy Questions */}
-                      <div className="relative">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium">
-                              Easy (
-                              {selectedDifficulty === "easy"
-                                ? "50"
-                                : selectedDifficulty === "medium"
-                                ? "20"
-                                : selectedDifficulty === "hard"
-                                ? "10"
-                                : "5"}
-                              %)
+                      <div className="space-y-4">
+                        {/* Easy Questions */}
+                        <div className="relative">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-medium">
+                                Easy (
+                                {selectedDifficulty === "easy"
+                                  ? "50"
+                                  : selectedDifficulty === "medium"
+                                  ? "20"
+                                  : selectedDifficulty === "hard"
+                                  ? "10"
+                                  : "5"}
+                                %)
+                              </span>
+                            </div>
+                            <span className="text-sm text-muted-foreground">
+                              {levels?.easy} questions
                             </span>
                           </div>
-                          <span className="text-sm text-muted-foreground">
-                            {levels?.easy} questions
-                          </span>
+                          <div className="w-full h-2 bg-green-100 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-green-500 transition-all duration-300"
+                              style={{
+                                width:
+                                  selectedDifficulty === "easy"
+                                    ? "50%"
+                                    : selectedDifficulty === "medium"
+                                    ? "20%"
+                                    : selectedDifficulty === "hard"
+                                    ? "10%"
+                                    : "5%",
+                              }}
+                            ></div>
+                          </div>
                         </div>
-                        <div className="w-full h-2 bg-green-100 rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-green-500 transition-all duration-300"
-                            style={{
-                              width:
-                                selectedDifficulty === "easy"
-                                  ? "50%"
+
+                        {/* Medium Questions */}
+                        <div className="relative">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-medium">
+                                Medium (
+                                {selectedDifficulty === "easy"
+                                  ? "30"
                                   : selectedDifficulty === "medium"
-                                  ? "20%"
+                                  ? "50"
                                   : selectedDifficulty === "hard"
-                                  ? "10%"
-                                  : "5%",
-                            }}
-                          ></div>
+                                  ? "20"
+                                  : "15"}
+                                %)
+                              </span>
+                            </div>
+                            <span className="text-sm text-muted-foreground">
+                              {levels?.medium} questions
+                            </span>
+                          </div>
+                          <div className="w-full h-2 bg-yellow-100 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-yellow-500 transition-all duration-300"
+                              style={{
+                                width:
+                                  selectedDifficulty === "easy"
+                                    ? "30%"
+                                    : selectedDifficulty === "medium"
+                                    ? "50%"
+                                    : selectedDifficulty === "hard"
+                                    ? "20%"
+                                    : "15%",
+                              }}
+                            ></div>
+                          </div>
+                        </div>
+
+                        {/* Hard Questions */}
+                        <div className="relative">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-medium">
+                                Hard (
+                                {selectedDifficulty === "easy"
+                                  ? "15"
+                                  : selectedDifficulty === "medium"
+                                  ? "20"
+                                  : selectedDifficulty === "hard"
+                                  ? "50"
+                                  : "30"}
+                                %)
+                              </span>
+                            </div>
+                            <span className="text-sm text-muted-foreground">
+                              {levels?.hard} questions
+                            </span>
+                          </div>
+                          <div className="w-full h-2 bg-red-100 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-red-500 transition-all duration-300"
+                              style={{
+                                width:
+                                  selectedDifficulty === "easy"
+                                    ? "15%"
+                                    : selectedDifficulty === "medium"
+                                    ? "20%"
+                                    : selectedDifficulty === "hard"
+                                    ? "50%"
+                                    : "30%",
+                              }}
+                            ></div>
+                          </div>
+                        </div>
+
+                        {/* Very Hard Questions */}
+                        <div className="relative">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-medium">
+                                Very Hard (
+                                {selectedDifficulty === "easy"
+                                  ? "5"
+                                  : selectedDifficulty === "medium"
+                                  ? "10"
+                                  : selectedDifficulty === "hard"
+                                  ? "20"
+                                  : "50"}
+                                %)
+                              </span>
+                            </div>
+                            <span className="text-sm text-muted-foreground">
+                              {levels?.veryHard} questions
+                            </span>
+                          </div>
+                          <div className="w-full h-2 bg-purple-100 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-purple-500 transition-all duration-300"
+                              style={{
+                                width:
+                                  selectedDifficulty === "easy"
+                                    ? "5%"
+                                    : selectedDifficulty === "medium"
+                                    ? "10%"
+                                    : selectedDifficulty === "hard"
+                                    ? "20%"
+                                    : "50%",
+                              }}
+                            ></div>
+                          </div>
                         </div>
                       </div>
 
-                      {/* Medium Questions */}
-                      <div className="relative">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium">
-                              Medium (
-                              {selectedDifficulty === "easy"
-                                ? "30"
-                                : selectedDifficulty === "medium"
-                                ? "50"
-                                : selectedDifficulty === "hard"
-                                ? "20"
-                                : "15"}
-                              %)
-                            </span>
-                          </div>
-                          <span className="text-sm text-muted-foreground">
-                            {levels?.medium} questions
-                          </span>
-                        </div>
-                        <div className="w-full h-2 bg-yellow-100 rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-yellow-500 transition-all duration-300"
-                            style={{
-                              width:
-                                selectedDifficulty === "easy"
-                                  ? "30%"
-                                  : selectedDifficulty === "medium"
-                                  ? "50%"
-                                  : selectedDifficulty === "hard"
-                                  ? "20%"
-                                  : "15%",
-                            }}
-                          ></div>
-                        </div>
-                      </div>
-
-                      {/* Hard Questions */}
-                      <div className="relative">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium">
-                              Hard (
-                              {selectedDifficulty === "easy"
-                                ? "15"
-                                : selectedDifficulty === "medium"
-                                ? "20"
-                                : selectedDifficulty === "hard"
-                                ? "50"
-                                : "30"}
-                              %)
-                            </span>
-                          </div>
-                          <span className="text-sm text-muted-foreground">
-                            {levels?.hard} questions
-                          </span>
-                        </div>
-                        <div className="w-full h-2 bg-red-100 rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-red-500 transition-all duration-300"
-                            style={{
-                              width:
-                                selectedDifficulty === "easy"
-                                  ? "15%"
-                                  : selectedDifficulty === "medium"
-                                  ? "20%"
-                                  : selectedDifficulty === "hard"
-                                  ? "50%"
-                                  : "30%",
-                            }}
-                          ></div>
-                        </div>
-                      </div>
-
-                      {/* Very Hard Questions */}
-                      <div className="relative">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium">
-                              Very Hard (
-                              {selectedDifficulty === "easy"
-                                ? "5"
-                                : selectedDifficulty === "medium"
-                                ? "10"
-                                : selectedDifficulty === "hard"
-                                ? "20"
-                                : "50"}
-                              %)
-                            </span>
-                          </div>
-                          <span className="text-sm text-muted-foreground">
-                            {levels?.veryHard} questions
-                          </span>
-                        </div>
-                        <div className="w-full h-2 bg-purple-100 rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-purple-500 transition-all duration-300"
-                            style={{
-                              width:
-                                selectedDifficulty === "easy"
-                                  ? "5%"
-                                  : selectedDifficulty === "medium"
-                                  ? "10%"
-                                  : selectedDifficulty === "hard"
-                                  ? "20%"
-                                  : "50%",
-                            }}
-                          ></div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex justify-between items-center pt-4 border-t mt-4">
-                      <span className="text-sm font-medium">
-                        Total Questions
-                      </span>
-                      <span
-                        className={`text-sm font-medium ${
-                          levels.easy +
+                      <div className="flex justify-between items-center pt-4 border-t mt-4">
+                        <span className="text-sm font-medium">
+                          Total Questions
+                        </span>
+                        <span
+                          className={`text-sm font-medium ${
+                            levels.easy +
+                              levels.medium +
+                              levels.hard +
+                              levels.veryHard !==
+                            parseInt(values.noOfQuestions)
+                              ? "text-red-500"
+                              : ""
+                          }`}
+                        >
+                          {levels.easy +
                             levels.medium +
                             levels.hard +
-                            levels.veryHard !==
-                          parseInt(values.noOfQuestions)
-                            ? "text-red-500"
-                            : ""
-                        }`}
-                      >
-                        {levels.easy +
-                          levels.medium +
-                          levels.hard +
-                          levels.veryHard}{" "}
-                        / {values.noOfQuestions}
-                      </span>
+                            levels.veryHard}{" "}
+                          / {values.noOfQuestions}
+                        </span>
+                      </div>
+                      {levels.easy +
+                        levels.medium +
+                        levels.hard +
+                        levels.veryHard !==
+                        parseInt(values.noOfQuestions) && (
+                        <p className="text-xs text-red-500 mt-1">
+                          Total questions must match the specified number of
+                          questions
+                        </p>
+                      )}
                     </div>
-                    {levels.easy +
-                      levels.medium +
-                      levels.hard +
-                      levels.veryHard !==
-                      parseInt(values.noOfQuestions) && (
-                      <p className="text-xs text-red-500 mt-1">
-                        Total questions must match the specified number of
-                        questions
-                      </p>
-                    )}
-                  </div>
                   )}
                 </div>
               </Form>
