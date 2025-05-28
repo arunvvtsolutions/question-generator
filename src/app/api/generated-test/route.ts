@@ -38,6 +38,7 @@ const testSchema = z.object({
   level: z.number().int(),
   duration: z.number().int().positive(),
   noOfQuestions: z.number().int().positive(),
+  questionType : z.number().int(),
   questions: z.array(
     z.object({
       subjectId: z.number().int(),
@@ -313,7 +314,7 @@ export const POST = async (req: NextRequest) => {
           no_of_questions: data.noOfQuestions,
           duration: data.duration,
           level: data.level,
-          question_type_id : 1,
+          question_type_id : data.questionType,
         },
       });
 

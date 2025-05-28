@@ -41,6 +41,7 @@ const MainExamQuestionsForm = () => {
       console.log(topics);
       console.log(streams);
       console.log(cognitiveLevel);
+      console.log(questionTypes);
     };
     fetchData();
   }, []);
@@ -51,6 +52,8 @@ const MainExamQuestionsForm = () => {
         chapters={chapters}
         topics={topics}
         cognitiveLevel={cognitiveLevel || []}
+        streams = {streams || []}
+        questionTypes = {questionTypes || []}
         // tokenDetails={tokenDetails.data}
       />
     </>

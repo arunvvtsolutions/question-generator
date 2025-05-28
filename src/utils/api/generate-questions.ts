@@ -148,6 +148,7 @@ export const getCognitiveLevel = async (): Promise<{
     );
   }
 };
+
 export const getTokenDetails = async (
   userId: number
 ): Promise<{

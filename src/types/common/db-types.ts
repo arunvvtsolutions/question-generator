@@ -65,3 +65,8 @@ export interface IQuestionTypeCommonProps {
     shortUrl: string;
     status: number;
 }
+
+export interface IOptionTypeCommonProps {
+    value : string;
+    label : string;
+};

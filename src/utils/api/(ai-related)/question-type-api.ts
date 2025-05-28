@@ -8,7 +8,7 @@ export const getAllQuestionTypes = async () : Promise<{ success: boolean, data: 
     const res = await axiosService.get(
       `${BASE_URL}/${Api_endpoint.get_question_types}`
     );
-    return { success: true, data: res.data };
+    return { success: true, data: res.data.data || [] };
   } catch (error) {
     return { success: false, data: [] };
   }
