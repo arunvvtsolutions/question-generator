@@ -6,7 +6,6 @@ import { getTokenDetails, improveAiQuestionsQuery, ImproveQuestionProps } from "
 export const POST = async (request: Request) => {
   try {
     const user: any = verfiyAuthentication(request.headers.get("authorization"));
-    console.log(user);
 
     if (user.status === 401) return user;
 

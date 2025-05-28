@@ -8,7 +8,6 @@ export const GET = async (request: NextRequest) => {
     const user: any = verfiyAuthentication(request.headers.get("authorization"));
     if (user.status === 401) return user; 
     const data = await getAllAiQuestions(user.id);
-    console.log(data);
     
     return NextResponse.json({ success: true, data });
   } catch (error) {

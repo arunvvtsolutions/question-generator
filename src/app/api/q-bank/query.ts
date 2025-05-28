@@ -254,6 +254,8 @@ export const generateAiQuestions = async (
     };
   } catch (error) {
     console.error("Error generating AI questions:", error);
+    console.log(error);
+    
     return {
       success: false,
       message: "Something went wrong while generating questions.",
@@ -265,10 +267,6 @@ export const improveAiQuestionsQuery = async (
   body: ImproveQuestionProps,
   userId: number
 ): Promise<{ success: boolean; message: string }> => {
-  console.log(body);
-
-  console.log(userId);
-  
   
   try {
     const response = await customFetch(
@@ -281,10 +279,7 @@ export const improveAiQuestionsQuery = async (
         body: JSON.stringify(body),
       }
     );
-
-    console.log(response);
     
-
     // Check if response is expected and successful
     if (!Array.isArray(response) || response[0] !== true) {
       return {

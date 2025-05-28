@@ -180,7 +180,6 @@ const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, c
     onSubmit: async (values) => {
       try {
         setLoading(true);
-
         const data: IGenerateQuestBodyProps = {
           subjectIds: values.selectedSubjects.map((subject: IOptionProps) => subject.value).join(","),
           chapterIds: values.selectedChapters.map((chapter: IOptionProps) => chapter.value).join(","),

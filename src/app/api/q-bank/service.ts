@@ -37,7 +37,6 @@ export const generateAiQuestionsService = async (userId: number, data: IGenrateQ
       difficulty: questionLevels,
       number_of_questions: Number(totalQuestion),
       cognitive_level: selectedCognitiveLevel,
-      already_gen_mcqs: "None",
       model:questionQuality,
       stream
     };
