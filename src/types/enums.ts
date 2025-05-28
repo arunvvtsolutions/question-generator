@@ -200,6 +200,13 @@ export const Api_endpoint = {
 
   //flash card
   get_all_subjects_and_chapter: '/api/flash-card',
+
+
+  // streams
+  get_all_streams: 'api/stream',
+
+  // question types
+  get_question_types: 'api/question-type',
 };
 
 
