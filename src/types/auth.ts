@@ -10,7 +10,9 @@ export type CreateUserProps = {
   email: string;
   phone: string;
   otp: number;
-  role:string
+  role:string;
+  class:number,
+  stream:number
 };
 
 export type AuthProps = {

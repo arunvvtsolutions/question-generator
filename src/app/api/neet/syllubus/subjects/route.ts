@@ -5,7 +5,7 @@ import { getAllSubjects } from "../query";
 export const GET = async () => {
   try {
     const subjects = await getAllSubjects();
-    return NextResponse.json({ success: false, data: subjects });
+    return NextResponse.json({ success: true, data: subjects });
   } catch (error) {
     return NextResponse.json({ success: false, message: error },{ status: 500 });
   }

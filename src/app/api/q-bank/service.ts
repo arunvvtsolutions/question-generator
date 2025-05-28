@@ -14,7 +14,7 @@ import {  generateUuid } from "@/utils";
 
 export const generateAiQuestionsService = async (userId: number, data: IGenrateQstBodyProps) => {
   try {
-    const { subjectIds, chapterIds, questionLevels, selectedCognitiveLevel, topicIds, totalQuestion ,botType } = data;
+    const { subjectIds, chapterIds, questionLevels, selectedCognitiveLevel, topicIds, totalQuestion ,questionQuality,stream } = data;
 
     const uuid = generateUuid();
 
@@ -38,11 +38,9 @@ export const generateAiQuestionsService = async (userId: number, data: IGenrateQ
       number_of_questions: Number(totalQuestion),
       cognitive_level: selectedCognitiveLevel,
       already_gen_mcqs: "None",
-      model:botType
+      model:questionQuality,
+      stream
     };
-
-    console.log(payload);
-    
 
     const tokenDetails = await getTokenDetails(userId);
 
@@ -50,14 +48,14 @@ export const generateAiQuestionsService = async (userId: number, data: IGenrateQ
         return {
        success: false,
         message: "Token details not found for the user.",
-  };
+      };
     }
 
     if (Number(totalQuestion) > tokenDetails.remainingTokens) {
   return {
     success: false,
     message: "Not enough tokens to generate the requested number of questions.",
-  };
+     };
 }
 
     const res = await generateAiQuestions(payload);
