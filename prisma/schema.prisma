@@ -37,6 +37,7 @@ model AiQuestions {
   chapters                Chapters                  @relation(fields: [chapterId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ai_questions_ibfk_3")
   cognitiveLevel          CognitiveLevel            @relation(fields: [cognitive_level], references: [id], onUpdate: NoAction, map: "ai_questions_ibfk_4")
   users                   Users                     @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "ai_questions_ibfk_5")
+  question_types          question_types            @relation(fields: [questionType], references: [s_no], onDelete: Cascade, map: "ai_questions_ibfk_6")
   generated_test_question generated_test_question[]
   old_questions           old_questions[]
 
@@ -261,16 +262,19 @@ model generated_test {
   stream_id               Int
   user_id                 Int
   no_of_questions         Int
+  question_type_id        Int
   duration                Int
   level                   Int
   created_at              DateTime?                 @default(now()) @db.DateTime(0)
   updated_at              DateTime?                 @default(now()) @db.DateTime(0)
+  question_types          question_types            @relation(fields: [question_type_id], references: [s_no], onDelete: NoAction, onUpdate: NoAction, map: "fk_question_type")
   streams                 streams                   @relation(fields: [stream_id], references: [s_no], onDelete: NoAction, onUpdate: NoAction, map: "generated_test_ibfk_1")
   users                   Users                     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "generated_test_ibfk_2")
   generated_test_question generated_test_question[]
 
   @@index([stream_id], map: "stream_id")
   @@index([user_id], map: "user_id")
+  @@index([question_type_id], map: "fk_question_type")
 }
 
 model streams {
@@ -305,4 +309,21 @@ model generated_test_question {
   @@index([chapter_id], map: "idx_q_chapter_id")
   @@index([subject_id], map: "idx_q_subject_id")
   @@index([topic_id], map: "idx_q_topic_id")
+}
+
+model question_types {
+  s_no           Int              @id @default(autoincrement())
+  question_type  String           @db.VarChar(255)
+  short_url      String?          @db.VarChar(255)
+  status         Int              @default(1)
+  is_deleted     Int              @default(0)
+  created_at     DateTime?        @default(now()) @db.DateTime(0)
+  updated_at     DateTime?        @default(now()) @db.DateTime(0)
+  ai_questions   AiQuestions[]
+  generated_test generated_test[]
+}
+
+model ai_models {
+  s_no       Int     @id @default(autoincrement())
+  model_name String? @db.VarChar(255)
 }

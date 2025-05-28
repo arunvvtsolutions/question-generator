@@ -47,3 +47,21 @@ export interface ICognitiveLevelCommonProps {
     addedDate: string;
     updatedDate: string;
 };
+
+
+export interface IStreamCommonProps{
+    id: number;
+    streamName: string;
+    shortUrl: string;
+    employeeId: number;
+    status: number;
+    createdAt: string;
+    updatedAt: string;
+};
+
+export interface IQuestionTypeCommonProps {
+    id: number;
+    questionType: string;
+    shortUrl: string;
+    status: number;
+}
