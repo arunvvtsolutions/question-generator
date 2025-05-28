@@ -5,13 +5,11 @@ import { verfiyAuthentication } from "@/utils";
 
 export const GET = async (request: NextRequest) => {
   try {
-    console.log(request.headers);
     
     const user: any = verfiyAuthentication(
       request.headers.get("authorization")
     );
     if (user.status === 401) return user;
-    console.log("user", user);
   } catch (error) {
     return NextResponse.json(
       { success: false, message: "Internal Server Error" },
@@ -68,8 +66,6 @@ export const POST = async (req: NextRequest) => {
     const body = await req.json();
     const parsed = testSchema.safeParse(body);
 
-    console.log("Received request body:", body);
-    console.log("Parsed data:", parsed);
 
     if (!parsed.success) {
       return NextResponse.json(
@@ -107,7 +103,6 @@ export const POST = async (req: NextRequest) => {
         }))
       )
     );
-    console.log("formattedQuestions:", formattedQuestions);
 
     // Distribute questions across topics
     const questionsPerTopic = Math.ceil(
@@ -174,9 +169,8 @@ export const POST = async (req: NextRequest) => {
 
         if (questionsNeeded <= 0) continue;
 
-        console.log(
-          `Fetching ${questionsNeeded} questions for topicId: ${filter.topicId}, difficulty: ${level} (value: ${levelMap[level]})`
-        );
+    
+       
 
         const questions = await prisma.aiQuestions.findMany({
           where: {
@@ -190,10 +184,7 @@ export const POST = async (req: NextRequest) => {
           orderBy: { addedDate: "desc" },
         });
 
-        console.log(
-          `Found ${questions.length} questions for subjectId: ${filter.subjectId}, ` +
-            `chapterId: ${filter.chapterId}, topicId: ${filter.topicId}, difficulty: ${level}`
-        );
+        
 
         allQuestions.push(...questions);
         questions.forEach((q) => usedQuestionIds.add(q.id));

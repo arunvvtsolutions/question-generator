@@ -7,6 +7,9 @@ const GenerateQuestions = ({
   chapters,
   cognitiveLevel,
   tokenDetails,
+  streams,
+  questionDifficulty,
+  questionQuality,
 }: IGenerateQuesProps) => {
   return (
     <div className="p-3">
@@ -16,6 +19,9 @@ const GenerateQuestions = ({
         subjects={subjects}
         cognitiveLevel={cognitiveLevel}
         tokenDetails={tokenDetails}
+        streams={streams}
+        questionDifficulty={questionDifficulty}
+        questionQuality={questionQuality}
       />
     </div>
   );

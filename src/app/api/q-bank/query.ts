@@ -56,48 +56,34 @@ export const getTopicByids = async (topicIds: number[]) => {
 export const getAllAiQuestions = async (userId: number) => {
   try {
     const questions = await prisma.aiQuestions.findMany({
-      where: {
-        user_id: userId,
-      },
+      where: { user_id: userId },
       include: {
-        subjects: {
-          select: { subjectName: true },
-        },
-        chapters: {
-          select: { chapterName: true },
-        },
-        topics: {
-          select: { topicName: true },
-        },
+        subjects: { select: { subjectName: true } },
+        chapters: { select: { chapterName: true } },
+        topics: { select: { topicName: true } },
       },
-      orderBy: {
-        uuid: "desc",
-      },
+      orderBy: { addedDate: "desc" }, // newest first
     });
-    // ✅ Define correct shape of accumulator
-    const groupedByUuid: Record<string, IAiQuestion[]> = questions.reduce((acc, question) => {
-      if (!acc[question.uuid]) {
-        acc[question.uuid] = [];
-      }
-      acc[question.uuid].push(question);
-      return acc;
-    }, {} as Record<string, IAiQuestion[]>);
 
-    // ✅ Convert to array of groups
-    const groupedArray = Object.entries(groupedByUuid).map(([uuid, questions]) => ({
-      groupedUuid: uuid,
+    const groupedByUuid: Record<string, IAiQuestion[]> = questions.reduce(
+      (acc, question) => {
+        if (!acc[question.uuid]) acc[question.uuid] = [];
+        acc[question.uuid].push(question);
+        return acc;
+      },
+      {} as Record<string, IAiQuestion[]>
+    );
+
+    return Object.entries(groupedByUuid).map(([groupedUuid, questions]) => ({
+      groupedUuid,
       questions,
     }));
-
-    return groupedArray;
-
   } catch (error) {
     console.error("Error fetching AI questions:", error);
-    console.log(error);
-    
     throw new Error("Could not fetch questions.");
   }
 };
+
 
 
 export const getGeneratedQuestions = async (userId: number, uuid: string) => {
@@ -214,8 +200,6 @@ export const deductTokens = async (
 export const generateAiQuestions = async (
   payload: IGenerateAiQuestionsPayload
 ): Promise<any> => {
-  console.log(payload);
-  
   try {
     const result = await customFetch(
       `${AI_BASE_URL}/${Api_endpoint.generate_ai_question}`,

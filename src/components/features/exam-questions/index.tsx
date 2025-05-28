@@ -36,12 +36,6 @@ const MainExamQuestionsForm = () => {
       setCognitiveLevel(cognitiveLevel.data || []);
       setStreams(streams.data || []);
       setQuestionTypes(questionTypes.data || []);
-      console.log(subjects);
-      console.log(chapters);
-      console.log(topics);
-      console.log(streams);
-      console.log(cognitiveLevel);
-      console.log(questionTypes);
     };
     fetchData();
   }, []);

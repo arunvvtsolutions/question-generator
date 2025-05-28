@@ -43,7 +43,6 @@ export const createUser = async (
   userData: CreateUserProps,
   marketingData: any
 ) => {
-  
   try {
     const res = await axios.post(`/${Api_endpoint.user_auth}`, {
       userData,

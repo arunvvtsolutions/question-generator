@@ -18,13 +18,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type ITokenProps from "@/types/generate-questions";
-import type { ICognitiveLevelProps } from "@/types/generate-questions";
+import type { ICognitiveLevelProps, QuestionDifficultyProps, QuestionQualityProps } from "@/types/generate-questions";
 import LoadingSpinner from "@/components/icons/LoadingSpinner";
 import { CREATE_STUDY_PLAN } from "@/service/enums/texts";
 import { Input } from "@/components/ui/input";
 import FeedbackLoader from "../view-ai-questions/FeedbackLoader";
 import { ChevronDown, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { IStreamCommonProps } from "@/types/common/db-types";
 
 export interface IGenerateQuesProps {
   chapters?: IChapterDetailsProps[];
@@ -32,6 +33,9 @@ export interface IGenerateQuesProps {
   topics?: ITopicDatas[];
   cognitiveLevel: ICognitiveLevelProps[];
   tokenDetails?: ITokenProps;
+  streams: IStreamCommonProps[];
+  questionDifficulty: QuestionDifficultyProps[];
+  questionQuality: QuestionQualityProps[];
 }
 
 export interface IGenerateQuestBodyProps {
@@ -45,26 +49,26 @@ export interface IGenerateQuestBodyProps {
   stream: string;
 }
 
-// Custom Quality Select Component
+type QualityOption = {
+  value: string;
+  label: string;
+  credit: string;
+};
+
 const QualitySelect = ({
   value,
   onValueChange,
   error,
+  options,
 }: {
   value: string;
   onValueChange: (value: string) => void;
   error?: string;
+  options: QualityOption[];
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const qualityOptions = [
-    { value: "basic", label: "Basic", credit: "0.5 Credit" },
-    { value: "standard", label: "Standard", credit: "1 Credit" },
-    { value: "premium", label: "Premium", credit: "2 Credits" },
-    { value: "elite", label: "Elite", credit: "3 Credits" },
-  ];
-
-  const selectedOption = qualityOptions.find((option) => option.value === value);
+  const selectedOption = options.find((option) => option.value === value);
 
   return (
     <div className="relative">
@@ -86,7 +90,7 @@ const QualitySelect = ({
         <div className="absolute top-full left-0 right-0 z-50 mt-1 rounded-md border bg-popover text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95">
           <div className="p-1">
             <div className="px-2 py-1.5 text-sm font-semibold">Quality Levels</div>
-            {qualityOptions.map((option) => (
+            {options.map((option) => (
               <button
                 key={option.value}
                 type="button"
@@ -111,7 +115,6 @@ const QualitySelect = ({
         </div>
       )}
 
-      {/* Overlay to close dropdown when clicking outside */}
       {isOpen && <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />}
     </div>
   );
@@ -124,7 +127,16 @@ const QUALITY_LEVEL_MAP: Record<string, number> = {
   elite: 4,
 };
 
-const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, cognitiveLevel, tokenDetails }) => {
+const GenerateQusForm: FC<IGenerateQuesProps> = ({
+  topics,
+  chapters,
+  subjects,
+  cognitiveLevel,
+  tokenDetails,
+  streams,
+  questionDifficulty,
+  questionQuality,
+}) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [subjectOptions, setSubjectOptions] = useState<IOptionProps[]>([
@@ -135,15 +147,16 @@ const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, c
     })) || []),
   ]);
 
+
   const [chapterOptions, setChapterOptions] = useState<IOptionProps[]>([]);
   const [topicOptions, setTopicOptions] = useState<IOptionProps[]>([]);
 
   const validationSchema = Yup.object({
     difficultLevel: Yup.string()
-      .oneOf(["easy", "medium", "hard"], "Please select a valid difficulty level")
+      .oneOf(["easy", "medium", "hard", "veryhard"], "Please select a valid difficulty level")
       .required("Difficulty level is required"),
     selectedStream: Yup.string()
-      .oneOf(["Neet", "Jee", "Cbse"], "Please select a valid stream")
+      .oneOf(["neet", "jee", "cbse"], "Please select a valid stream")
       .required("Stream is required"),
     questionQuality: Yup.string()
       .oneOf(["basic", "standard", "premium", "elite"], "Select a valid question quality")
@@ -434,9 +447,14 @@ const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, c
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Streams</SelectLabel>
-                      <SelectItem value="Neet">NEET</SelectItem>
-                      <SelectItem value="Jee">JEE</SelectItem>
-                      <SelectItem value="Cbse">CBSE</SelectItem>
+                      {streams.map((stream) => (
+                        <SelectItem
+                          key={stream.id}
+                          value={stream.shortUrl.toLowerCase()} 
+                        >
+                          {stream.streamName}
+                        </SelectItem>
+                      ))}
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -460,6 +478,7 @@ const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, c
                       ? String(formik.errors.questionQuality)
                       : undefined
                   }
+                  options={questionQuality} // <-- pass your dynamic data here
                 />
                 {formik.errors.questionQuality && formik.touched.questionQuality && (
                   <p className="text-[#f04749] font-[500] text-[14px] mx-2 mt-1 text-start">
@@ -481,9 +500,11 @@ const GenerateQusForm: FC<IGenerateQuesProps> = ({ topics, chapters, subjects, c
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Difficulty Level</SelectLabel>
-                      <SelectItem value="easy">Easy</SelectItem>
-                      <SelectItem value="medium">Medium</SelectItem>
-                      <SelectItem value="hard">Hard</SelectItem>
+                      {questionDifficulty.map(({ id, difficulty_level }) => (
+                        <SelectItem key={id} value={difficulty_level.toLowerCase().replace(/\s+/g, "")}>
+                          {difficulty_level}
+                        </SelectItem>
+                      ))}
                     </SelectGroup>
                   </SelectContent>
                 </Select>

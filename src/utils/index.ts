@@ -121,8 +121,6 @@ export const shuffleArray = (array: any[]) => {
 
 // use only for api to check whether the use authorized or not
 export const verfiyAuthentication = (authToken: string | null) => {
-  console.log(authToken, "authToken in utils verfiyAuthentication");
-  
   if (!authToken || !authToken.startsWith("Bearer"))
     return NextResponse.json({ success: false, message: ERROR.NOT_A_VALID_USER }, { status: 401 });
   return decodeJwt(authToken);

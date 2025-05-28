@@ -64,6 +64,7 @@ model Chapters {
   addedDate               DateTime                  @default(now()) @map("added_date") @db.DateTime(0)
   updatedDate             DateTime                  @default(now()) @map("updated_date") @db.DateTime(0)
   aiQuestions             AiQuestions[]
+  Classes                 Classes                   @relation(fields: [classId], references: [id], onUpdate: Restrict, map: "Class")
   subjects                Subjects                  @relation(fields: [subjectId], references: [id], onUpdate: Restrict, map: "Subject")
   generated_test_question generated_test_question[]
   old_questions           old_questions[]
@@ -326,4 +327,34 @@ model question_types {
 model ai_models {
   s_no       Int     @id @default(autoincrement())
   model_name String? @db.VarChar(255)
+}
+
+model Classes {
+  id             Int        @id @default(autoincrement()) @map("s_no")
+  className      String     @map("class_name") @db.VarChar(255)
+  shortUrl       String     @map("short_url") @db.VarChar(255)
+  deleteStatus   Int        @default(0) @map("is_deleted")
+  addedDate      DateTime   @default(now()) @map("added_date") @db.DateTime(0)
+  updatedDate    DateTime   @default(now()) @map("updated_date") @db.DateTime(0)
+  sequence       Int?
+  class_in_digit Int
+  chapters       Chapters[]
+
+  @@map("classes")
+}
+
+model QuestionDifficulty {
+  id               Int       @id
+  difficulty_level String    @db.VarChar(20)
+  created_at       DateTime? @default(now()) @db.Timestamp(0)
+  updated_at       DateTime? @default(now()) @db.Timestamp(0)
+}
+
+model QuestionQuality {
+  id         BigInt    @id @unique(map: "id") @default(autoincrement()) @db.UnsignedBigInt
+  value      String    @unique(map: "value") @db.VarChar(50)
+  label      String    @db.VarChar(50)
+  credit     String    @db.VarChar(50)
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+  updated_at DateTime? @default(now()) @db.Timestamp(0)
 }

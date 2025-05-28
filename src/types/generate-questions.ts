@@ -170,6 +170,19 @@ export default  interface ITokenProps {
   remainingTokens:number
 }
 
+export interface QuestionQualityProps  {
+  id: number;
+  credit: string;
+  label: string;
+  value: string;
+};
+
+export interface QuestionDifficultyProps  {
+  id: number;
+  difficulty_level: string;
+};
+
+
 export interface IPracticeExamTypes {
   id: number;
   examId?: number;

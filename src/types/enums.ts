@@ -207,6 +207,11 @@ export const Api_endpoint = {
 
   // question types
   get_question_types: 'api/question-type',
+  get_question_quality:'api/question-quality',
+  get_question_difficulty:'api/question-difficulty',
+
+    //classes
+  get_all_classes: "api/class-standerd",
 };
 
 

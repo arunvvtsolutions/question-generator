@@ -4,8 +4,6 @@ import axios from "axios"
 
 export const createExamTestQuestions = async (data : any) => {
   try {
-    console.log("data",data);
-    
     const res = await axiosService.post(`/api/generated-test`,data);
     return res.data;
   } catch (error: any) {

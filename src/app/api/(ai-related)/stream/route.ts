@@ -8,7 +8,6 @@ export const GET = async () => {
         is_deleted: 0,
       },
     });
-    console.log(res);
     const resModal = res?.map((item) => {
         return {
             id: item.s_no,

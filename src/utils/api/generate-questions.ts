@@ -7,11 +7,14 @@ import ITokenProps, {
   IGroupedAiQuestion,
   IPracticeExamTypes,
   IViewGeneratedQstProps,
+  QuestionDifficultyProps,
+  QuestionQualityProps,
 } from "@/types/generate-questions";
 import { IViewGeneratedQsts } from "@/components/q-bank/generated-questions";
 import axios from "axios";
 import { BASE_URL } from "@/config";
 import { ERROR } from "@/service/enums/texts";
+import { QuestionQuality } from "@prisma/client";
 
 export const generateQuestions = async (data: IGenerateQuestBodyProps) => {
   try {
@@ -169,3 +172,42 @@ export const getTokenDetails = async (
     );
   }
 };
+
+export const getQuestionQuality = async (
+): Promise<{
+  success: boolean;
+  data: QuestionQualityProps[];
+}> => {
+  try {
+    const res = await axios.get(
+      `${BASE_URL}/${Api_endpoint.get_question_quality}`
+    );
+    return res.data;
+  } catch (error: any) {
+    return (
+      error.response?.data || {
+        success: false,
+        message: ERROR.SOMETHING_WENT_WRONG,
+      }
+    );
+  }
+};
+
+export const getQuetionDifficulty = async (): Promise<{
+  success: boolean;
+  data: QuestionDifficultyProps[];
+}> => {
+  try {
+    const res = await axios.get(`${BASE_URL}/${Api_endpoint.get_question_difficulty}`);
+    return res.data; // expecting { success, data }
+  } catch (error: any) {
+    return (
+      error.response?.data || {
+        success: false,
+        message: ERROR.SOMETHING_WENT_WRONG,
+      }
+    );
+  }
+};
+
+

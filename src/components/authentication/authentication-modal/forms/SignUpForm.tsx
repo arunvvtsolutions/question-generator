@@ -21,6 +21,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { IStreamCommonProps } from "@/types/common/db-types";
+import { getAllStreams } from "@/utils/api/(ai-related)/streams-api";
+import { ClassDataProps } from "@/types/class";
+import { getAllClasses } from "@/utils/api/classes";
 
 const SignUpForm = ({
   setFormType,
@@ -48,11 +52,23 @@ const SignUpForm = ({
 
   const streamMapping: Record<string, number> = {
     neet: 1,
-    jee: 2,
-    cbse: 3,
+    cbse: 2,
+    jee: 3,
   };
 
   const [processing, setProcessing] = useState(false);
+  const [streams, setStreams] = React.useState<IStreamCommonProps[]>([]);
+  const [classData, setClassData] = useState<ClassDataProps[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const [streams, classes] = await Promise.all([getAllStreams(), getAllClasses()]);
+      setClassData(classes.data || []);
+      setStreams(streams.data || []);
+    };
+    fetchData();
+  }, []);
+
 
   const validationSchema = Yup.object({
     name: Yup.string().min(3, "Name must contain atleast 3 letters").required("Name is required."),
@@ -127,8 +143,8 @@ const SignUpForm = ({
         <div className="pb-[20px]">
           <div className="mb-[20px]">
             <Select onValueChange={(value) => formik.setFieldValue("role", value)} value={formik.values.role}>
-              <SelectTrigger className="h-[48px] mt-[5px] text-[#333] border border-gray-300 rounded-md">
-                <SelectValue placeholder="Choose your role" className="text-[#333]" />
+              <SelectTrigger className="h-[48px] mt-[5px] text-[#555] border border-gray-300 rounded-md">
+                <SelectValue placeholder="Choose your role" className="text-[#555]" />
               </SelectTrigger>
               <SelectContent className="bg-white border border-gray-200 rounded-md shadow-md">
                 <SelectGroup>
@@ -149,21 +165,21 @@ const SignUpForm = ({
           {/* Stream Dropdown */}
           <div className="mb-[20px]">
             <Select onValueChange={(value) => formik.setFieldValue("stream", value)} value={formik.values.stream}>
-              <SelectTrigger className="h-[48px] mt-[5px] text-[#333] border border-gray-300 rounded-md">
-                <SelectValue placeholder="Choose your stream" className="text-[#333]" />
+              <SelectTrigger className="h-[48px] mt-[5px] text-[#555] border border-gray-300 rounded-md">
+                <SelectValue placeholder="Choose your stream" className="text-[#555]" />
               </SelectTrigger>
               <SelectContent className="bg-white border border-gray-200 rounded-md shadow-md">
                 <SelectGroup>
                   <SelectLabel>Stream</SelectLabel>
-                  <SelectItem value="jee" className="text-[#555] hover:bg-gray-100 cursor-pointer px-3 py-2">
-                    JEE
-                  </SelectItem>
-                  <SelectItem value="neet" className="text-[#555] hover:bg-gray-100 cursor-pointer px-3 py-2">
-                    NEET
-                  </SelectItem>
-                  <SelectItem value="cbse" className="text-[#555] hover:bg-gray-100 cursor-pointer px-3 py-2">
-                    CBSE
-                  </SelectItem>
+                  {streams.map((stream) => (
+                    <SelectItem
+                      key={stream.id}
+                      value={stream.shortUrl}
+                      className="text-[#555] hover:bg-gray-100 cursor-pointer px-3 py-2"
+                    >
+                      {stream.streamName}
+                    </SelectItem>
+                  ))}
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -171,31 +187,26 @@ const SignUpForm = ({
               <p className="text-[#f04749] font-[500] text-[14px] mx-2 mt-2">{formik.errors.stream}</p>
             )}
           </div>
-
-          {/* Class Dropdown */}
           <div className="mb-[20px]">
             <Select onValueChange={(value) => formik.setFieldValue("class", value)} value={formik.values.class}>
-              <SelectTrigger className="h-[48px] mt-[5px] text-[#333] border border-gray-300 rounded-md">
-                <SelectValue placeholder="Choose your class" className="text-[#333]" />
+              <SelectTrigger className="h-[48px] mt-[5px] text-[#555] border border-gray-300 rounded-md">
+                <SelectValue placeholder="Choose your class" className="text-[#555]" />
               </SelectTrigger>
               <SelectContent className="bg-white border border-gray-200 rounded-md shadow-md">
                 <SelectGroup>
                   <SelectLabel>Class</SelectLabel>
-                  <SelectItem value="viii" className="text-[#555] hover:bg-gray-100 cursor-pointer px-3 py-2">
-                    VIII
-                  </SelectItem>
-                  <SelectItem value="ix" className="text-[#555] hover:bg-gray-100 cursor-pointer px-3 py-2">
-                    IX
-                  </SelectItem>
-                  <SelectItem value="x" className="text-[#555] hover:bg-gray-100 cursor-pointer px-3 py-2">
-                    X
-                  </SelectItem>
-                  <SelectItem value="xi" className="text-[#555] hover:bg-gray-100 cursor-pointer px-3 py-2">
-                    XI
-                  </SelectItem>
-                  <SelectItem value="xii" className="text-[#555] hover:bg-gray-100 cursor-pointer px-3 py-2">
-                    XII
-                  </SelectItem>
+                  {classData.map((cls) => (
+                    <SelectItem
+                      key={cls.id}
+                      value={cls.shortUrl.replace("class-", "")}
+                      className="text-[#555] hover:bg-gray-100 cursor-pointer px-3 py-2"
+                    >
+                      {cls.class_in_digit >= 11
+                        ? cls.class_in_digit // Show as number for 11, 12 etc.
+                        : cls.className.replace("Class ", "")}{" "}
+                      {/* Show "VIII", "IX", "X" for lower classes */}
+                    </SelectItem>
+                  ))}
                 </SelectGroup>
               </SelectContent>
             </Select>
