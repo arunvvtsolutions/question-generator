@@ -83,28 +83,34 @@ const MainExamList = () => {
     );
   }
 
-  if (examList.length === 0) {
-    return (
-      <div className="flex justify-center items-center min-h-[400px] text-gray-500">
-        No exams found
-      </div>
-    );
-  }
+  // if (examList.length === 0) {
+  //   return (
+  //     <div className="flex justify-center items-center min-h-[400px] text-gray-500">
+  //       No exams found
+  //     </div>
+  //   );
+  // }
 
   console.log("Exam List:", examList);
   
   return (
     <>
       <div className="flex justify-between items-center p-6">
-        <p className="text-[20px] font-semibold">Exam Question List</p>
+        <p className="text-[20px] font-semibold">Exam Question Papers</p>
         <Button onClick={() => router.push("exam-question")} variant="default" size="lg">
           Create Question Paper
         </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-6">
-        {examList.map((exam) => (
-          <ExamCard key={exam.id} exam={exam} />
-        ))}
+        {examList.length > 0 ? (
+          examList.map((exam) => (
+            <ExamCard key={exam.id} exam={exam} />
+          ))
+        ) : (
+          <div className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center items-center min-h-[400px] text-gray-500">
+            No exams found
+          </div>
+        )}
       </div>
     </>
   );
