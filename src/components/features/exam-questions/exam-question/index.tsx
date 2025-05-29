@@ -1,6 +1,6 @@
 import React from "react";
 import  ExamQuestionForm from "./ExamQuestionForm";
-import { IChapterCommonProps, ICognitiveLevelCommonProps, IQuestionTypeCommonProps, IStreamCommonProps, ISubjectCommonProps, ITopicCommonProps } from "@/types/common/db-types";
+import { IAiModelCommonProps, IChapterCommonProps, ICognitiveLevelCommonProps, IQuestionTypeCommonProps, IStreamCommonProps, ISubjectCommonProps, ITopicCommonProps } from "@/types/common/db-types";
 
 export interface IMainExamQuestionProps {
   topics : ITopicCommonProps[];
@@ -9,6 +9,7 @@ export interface IMainExamQuestionProps {
   cognitiveLevel: ICognitiveLevelCommonProps[];
   streams : IStreamCommonProps[];
   questionTypes?: IQuestionTypeCommonProps[]; 
+  aiModels? :IAiModelCommonProps[];
 }
 const MainExamQuestion = ({
   topics,
@@ -17,6 +18,7 @@ const MainExamQuestion = ({
   cognitiveLevel,
   streams,
   questionTypes,
+  aiModels,
 }: IMainExamQuestionProps) => {
   console.log(topics);
   console.log(subjects);
@@ -34,6 +36,7 @@ const MainExamQuestion = ({
         cognitiveLevel={cognitiveLevel}
         streams={streams}
         questionTypes={questionTypes}
+        aiModels={aiModels}
       />
     </div>
   );

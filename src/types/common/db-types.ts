@@ -70,3 +70,56 @@ export interface IOptionTypeCommonProps {
     value : string;
     label : string;
 };
+
+export interface IAiModelCommonProps {
+    id : number;
+    name : string;
+}
+
+
+
+export interface IGeneratedTestCommonProps {
+    id: number;
+    aiModelId: number;
+    userId: number;
+    streamId: number;
+    testTitle: string;
+    description: string;
+    questionTypeId: number;
+    noOfQuestions: number;
+    duration: number;
+    level: number;
+    createdAt: string;
+    updatedAt: string;
+};
+
+export interface IGeneratedTestQuestionCommonProps {
+    id: number;
+    questionId: number;
+    chapterId: number;
+    subjectId: number;
+    topicId: number;
+    testId: number;
+};
+
+export interface IAiQuestionCommonProps {
+    id: number;
+    uuid: string;
+    question: string;
+    answerDesc: string;
+    difficulty: number;
+    questionType: string;
+    addedDate: string;
+    subjectId: number;
+    chapterId: number;
+    topicId: number;
+    optionA: string;
+    optionB: string;
+    optionC: string;
+    optionD: string;
+    correctOpt: string;
+    modelId: number;
+    updatedDate: string;
+    cognitiveLevel: number;
+    estimatedTime: number;
+};

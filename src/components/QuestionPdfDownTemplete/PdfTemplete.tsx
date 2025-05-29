@@ -187,7 +187,7 @@ const QuestionPdfDownloadTemplete = ({ data }: { data: IAiQuestionsProps[] }) =>
         {/* <Image alt="" src={"/images/Neet Guid Logo.png"} width={80} height={70} className="dark:hidden" />
         
         <Image alt="" src={"/images/neetGuideDarkLogo.png"} width={80} height={70} className="dark:block hidden" /> */}
-        LoHo
+        Question Paper
         <div>
           <p>
             <span className="font-bold">Date:</span> {new Date().toLocaleDateString()}

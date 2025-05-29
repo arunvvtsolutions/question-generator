@@ -257,38 +257,42 @@ model old_questions {
 }
 
 model generated_test {
-  s_no                    Int                       @id @default(autoincrement())
-  test_title              String                    @db.VarChar(255)
-  description             String?                   @db.Text
-  stream_id               Int
-  user_id                 Int
-  no_of_questions         Int
-  question_type_id        Int
-  duration                Int
-  level                   Int
-  created_at              DateTime?                 @default(now()) @db.DateTime(0)
-  updated_at              DateTime?                 @default(now()) @db.DateTime(0)
-  question_types          question_types            @relation(fields: [question_type_id], references: [s_no], onDelete: NoAction, onUpdate: NoAction, map: "fk_question_type")
-  streams                 streams                   @relation(fields: [stream_id], references: [s_no], onDelete: NoAction, onUpdate: NoAction, map: "generated_test_ibfk_1")
-  users                   Users                     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "generated_test_ibfk_2")
-  generated_test_question generated_test_question[]
+  s_no                                        Int                       @id @default(autoincrement())
+  test_title                                  String                    @db.VarChar(255)
+  description                                 String?                   @db.Text
+  stream_id                                   Int
+  user_id                                     Int
+  ai_model_id                                 Int
+  no_of_questions                             Int
+  question_type_id                            Int
+  duration                                    Int
+  level                                       Int
+  created_at                                  DateTime?                 @default(now()) @db.DateTime(0)
+  updated_at                                  DateTime?                 @default(now()) @db.DateTime(0)
+  question_types                              question_types            @relation(fields: [question_type_id], references: [s_no], onDelete: NoAction, onUpdate: NoAction, map: "fk_question_type")
+  streams                                     streams                   @relation(fields: [stream_id], references: [s_no], onDelete: NoAction, onUpdate: NoAction, map: "generated_test_ibfk_1")
+  users                                       Users                     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "generated_test_ibfk_2")
+  streams_generated_test_ai_model_idTostreams streams                   @relation("generated_test_ai_model_idTostreams", fields: [ai_model_id], references: [s_no], onUpdate: Restrict, map: "generated_test_ibfk_4")
+  generated_test_question                     generated_test_question[]
 
   @@index([stream_id], map: "stream_id")
   @@index([user_id], map: "user_id")
-  @@index([question_type_id], map: "fk_question_type")
+  @@index([ai_model_id], map: "ai_model_id")
+  @@index([question_type_id], map: "question_type_id")
 }
 
 model streams {
-  s_no           Int              @id @default(autoincrement())
-  stream_name    String           @db.VarChar(100)
-  short_url      String           @db.VarChar(100)
-  employee_id    Int
-  status         Int?             @default(1) @db.TinyInt
-  is_deleted     Int?             @default(0) @db.TinyInt
-  created_at     DateTime?        @default(now()) @db.DateTime(0)
-  updated_at     DateTime?        @default(now()) @db.DateTime(0)
-  generated_test generated_test[]
-  subjects       Subjects[]
+  s_no                                               Int              @id @default(autoincrement())
+  stream_name                                        String           @db.VarChar(100)
+  short_url                                          String           @db.VarChar(100)
+  employee_id                                        Int
+  status                                             Int?             @default(1) @db.TinyInt
+  is_deleted                                         Int?             @default(0) @db.TinyInt
+  created_at                                         DateTime?        @default(now()) @db.DateTime(0)
+  updated_at                                         DateTime?        @default(now()) @db.DateTime(0)
+  generated_test                                     generated_test[]
+  generated_test_generated_test_ai_model_idTostreams generated_test[] @relation("generated_test_ai_model_idTostreams")
+  subjects                                           Subjects[]
 }
 
 model generated_test_question {

@@ -212,6 +212,12 @@ export const Api_endpoint = {
 
     //classes
   get_all_classes: "api/class-standerd",
+
+  // ai models
+  get_ai_models: 'api/ai-model',
+
+  // generate test 
+  generated_test: 'api/generated-test',
 };
 
 
