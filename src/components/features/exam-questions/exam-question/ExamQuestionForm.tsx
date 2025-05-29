@@ -96,73 +96,75 @@ const getQuestionDistribution = (
   totalQuestions: number,
   selectedDifficulty: DifficultyLevel
 ): IQuestionLevel => {
-  let distribution: IQuestionLevel;
+  let percentages: { [key in keyof IQuestionLevel]: number };
 
   switch (selectedDifficulty) {
     case "easy":
-      distribution = {
-        easy: Math.round(totalQuestions * 0.5), // 50%
-        medium: Math.round(totalQuestions * 0.3), // 30%
-        hard: Math.round(totalQuestions * 0.15), // 15%
-        veryHard: Math.round(totalQuestions * 0.05), // 5%
+      percentages = {
+        easy: 0.5, // 50%
+        medium: 0.3, // 30%
+        hard: 0.15, // 15%
+        veryHard: 0.05, // 5%
       };
       break;
     case "medium":
-      distribution = {
-        easy: Math.round(totalQuestions * 0.2), // 20%
-        medium: Math.round(totalQuestions * 0.5), // 50%
-        hard: Math.round(totalQuestions * 0.2), // 20%
-        veryHard: Math.round(totalQuestions * 0.1), // 10%
+      percentages = {
+        easy: 0.2, // 20%
+        medium: 0.5, // 50%
+        hard: 0.2, // 20%
+        veryHard: 0.1, // 10%
       };
       break;
     case "hard":
-      distribution = {
-        easy: Math.round(totalQuestions * 0.1), // 10%
-        medium: Math.round(totalQuestions * 0.2), // 20%
-        hard: Math.round(totalQuestions * 0.5), // 50%
-        veryHard: Math.round(totalQuestions * 0.2), // 20%
+      percentages = {
+        easy: 0.1, // 10%
+        medium: 0.2, // 20%
+        hard: 0.5, // 50%
+        veryHard: 0.2, // 20%
       };
       break;
     case "veryHard":
-      distribution = {
-        easy: Math.round(totalQuestions * 0.05), // 5%
-        medium: Math.round(totalQuestions * 0.15), // 15%
-        hard: Math.round(totalQuestions * 0.3), // 30%
-        veryHard: Math.round(totalQuestions * 0.5), // 50%
+      percentages = {
+        easy: 0.05, // 5%
+        medium: 0.15, // 15%
+        hard: 0.3, // 30%
+        veryHard: 0.5, // 50%
       };
       break;
     default:
-      distribution = {
-        easy: Math.round(totalQuestions * 0.25),
-        medium: Math.round(totalQuestions * 0.25),
-        hard: Math.round(totalQuestions * 0.25),
-        veryHard: Math.round(totalQuestions * 0.25),
+      percentages = {
+        easy: 0.25,
+        medium: 0.25,
+        hard: 0.25,
+        veryHard: 0.25,
       };
   }
 
-  // Adjust to ensure total matches exactly
-  const currentTotal =
-    distribution.easy +
-    distribution.medium +
-    distribution.hard +
-    distribution.veryHard;
-  const diff = totalQuestions - currentTotal;
+  // Calculate initial distribution using floor to prevent overallocation
+  const distribution: IQuestionLevel = {
+    easy: Math.floor(totalQuestions * percentages.easy),
+    medium: Math.floor(totalQuestions * percentages.medium),
+    hard: Math.floor(totalQuestions * percentages.hard),
+    veryHard: Math.floor(totalQuestions * percentages.veryHard),
+  };
 
-  if (diff !== 0) {
-    switch (selectedDifficulty) {
-      case "easy":
-        distribution.easy += diff;
-        break;
-      case "medium":
-        distribution.medium += diff;
-        break;
-      case "hard":
-        distribution.hard += diff;
-        break;
-      case "veryHard":
-        distribution.veryHard += diff;
-        break;
-    }
+  // Calculate how many questions still need to be allocated
+  const currentTotal = Object.values(distribution).reduce((sum, val) => sum + val, 0);
+  let remaining = totalQuestions - currentTotal;
+
+  // Distribute remaining questions based on highest decimal remainder
+  const remainders = Object.entries(percentages).map(([key, percentage]) => ({
+    key,
+    remainder: (totalQuestions * percentage) % 1,
+  }));
+
+  // Sort by remainder in descending order
+  remainders.sort((a, b) => b.remainder - a.remainder);
+
+  // Distribute remaining questions
+  for (let i = 0; i < remaining; i++) {
+    const key = remainders[i % remainders.length].key as keyof IQuestionLevel;
+    distribution[key]++;
   }
 
   return distribution;
@@ -367,7 +369,7 @@ const ExamQuestionForm: FC<IMainExamQuestionProps> = ({
               <FeedbackLoader />
             </div>
           ) : (
-            <div className="w-[85%] mt-5 mx-auto p-6 bg-[#Ffff] border-[1px] dark:bg-[#0E0E0E] rounded-[16px] dark:border-transparent">
+            <div className="w-full mt-5 mx-auto p-6 bg-[#Ffff] border-[1px] dark:bg-[#0E0E0E] rounded-[16px] dark:border-transparent">
               <div className="py-3 border-b mb-8">
                 <h1 className="text-[20px] lg:text-[24px] font-semibold text-gray-800 dark:text-white">
                   Create the Question Paper
@@ -375,9 +377,9 @@ const ExamQuestionForm: FC<IMainExamQuestionProps> = ({
               </div>
 
               <Form className="space-y-6">
-                <div className="flex justify-between gap-12">
+                <div className="flex flex-col xl:flex-row justify-between gap-12">
                   {/* Left Section - Form Fields */}
-                  <div className="space-y-6 w-[60%] pr-8 border-r border-gray-200 dark:border-gray-700">
+                  <div className="flex-1 space-y-6 lg:pr-8 lg:border-r border-gray-200 dark:border-gray-700">
                     <div>
                       <label className="block text-sm font-medium mb-2">
                         Test Title
@@ -500,7 +502,7 @@ const ExamQuestionForm: FC<IMainExamQuestionProps> = ({
                           className="text-xs text-red-500 mt-1"
                         />
                       </div>
-                      <div>
+                      <div className="">
                         <label className="block text-sm font-medium mb-2">
                           Select AI Model
                         </label>
@@ -645,7 +647,7 @@ const ExamQuestionForm: FC<IMainExamQuestionProps> = ({
 
                   {/* Right Section - Distribution */}
                   {levels && (
-                    <div className="space-y-6 py-6 w-[40%] bg-gray-50 dark:bg-gray-900 rounded-xl p-6 border border-gray-100 dark:border-gray-800 shadow-sm">
+                    <div className="flex-1 lg:flex-[0.6] space-y-6 py-6 bg-gray-50 dark:bg-gray-900 rounded-xl p-6 border border-gray-100 dark:border-gray-800 shadow-sm mt-8 lg:mt-0">
                       <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
                         Question Distribution
                       </h3>

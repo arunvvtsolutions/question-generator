@@ -6,7 +6,7 @@ import { IGeneratedTestCommonProps } from "@/types/common/db-types";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-type ExamWithQuestions = IGeneratedTestCommonProps & {
+export type ExamWithQuestions = IGeneratedTestCommonProps & {
   generatedTestQuestion: Array<{
     id: number;
     questionId: number;
@@ -32,8 +32,14 @@ type ExamWithQuestions = IGeneratedTestCommonProps & {
       correctOpt: string;
       modelId: number;
       updatedDate: string;
-      cognitiveLevel: number;
       estimatedTime: number;
+      cognitiveLevel : {
+        id: number;
+        title : string;
+        status : boolean;
+        createdAt : string;
+        updatedAt : string;
+      }
     };
   }>;
 };
@@ -85,6 +91,8 @@ const MainExamList = () => {
     );
   }
 
+  console.log("Exam List:", examList);
+  
   return (
     <>
       <div className="flex justify-between items-center p-6">
